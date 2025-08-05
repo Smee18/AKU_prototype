@@ -1,12 +1,16 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useRouter } from 'expo-router';
 import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
 
 
 export default function HomeScreen() {
 
+  const router = useRouter();
+
   function onPressFunction(){
     console.log("Pressed")
+    router.push('/results');
   }
 
   return (
