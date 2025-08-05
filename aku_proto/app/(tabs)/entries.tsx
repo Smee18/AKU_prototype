@@ -10,7 +10,7 @@ export default function HomeScreen() {
 
   function onPressFunction(){
     console.log("Pressed")
-    router.push('/results');
+    router.replace('/results');
   }
 
   return (
