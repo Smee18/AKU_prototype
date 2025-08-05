@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import InputField from '../components/numberInputs';
@@ -11,10 +11,27 @@ type Props = {
   
 };
 
+export function ColorbyNumber(number: string): {text: string, color: string} {
+    if (Number(number) <= 33) {
+      return {text: "Safe", color: "green"}
+    }
+    else if (Number(number) >= 66) {
+      return {text: "Danger", color: "red"}
+    } else {
+      return {text: "Warning",color: "orange"}
+    }
+}
+
 export default function HomeScreen({ navigation }: Props) {
 
   const [number, setNumber] = useState("");
+  const result = useMemo(() => ColorbyNumber(number), [number]);
   const fill = Number(number);
+
+  const handleChangeText = (value: string) => {
+    setNumber(value);
+};
+
 
   return (
     <SafeAreaView>
@@ -33,11 +50,12 @@ export default function HomeScreen({ navigation }: Props) {
           backgroundColor="#3d5875"
           arcSweepAngle={240}
           rotation={240}
+          duration={1000}
           lineCap="round"
         />
 
-      <InputField placeholder="Username" value={number} onChangeText={value => setNumber(value)}/>
-      <ThemedText>Current Input: {number}</ThemedText>
+      <InputField placeholder="Username" value={number} onChangeText={handleChangeText}/>
+      <ThemedText style={{color: result.color}}>{result.text}</ThemedText>
       </ThemedView>
     </SafeAreaView>
 
