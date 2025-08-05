@@ -4,12 +4,6 @@ import { useMemo, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import InputField from '../components/numberInputs';
-import { HomePageNavigationProp } from '../navigation/types';
-
-type Props = {
-    navigation: HomePageNavigationProp;
-  
-};
 
 export function ColorbyNumber(number: string): {text: string, color: string} {
     if (Number(number) <= 33) {
@@ -22,7 +16,7 @@ export function ColorbyNumber(number: string): {text: string, color: string} {
     }
 }
 
-export default function HomeScreen({ navigation }: Props) {
+export default function OutcomeScreen() {
 
   const [number, setNumber] = useState("");
   const result = useMemo(() => ColorbyNumber(number), [number]);
@@ -54,7 +48,7 @@ export default function HomeScreen({ navigation }: Props) {
           lineCap="round"
         />
 
-      <InputField placeholder="Username" value={number} onChangeText={handleChangeText}/>
+      <InputField placeholder="Enter a number" value={number} onChangeText={handleChangeText}/>
       <ThemedText style={{color: result.color}}>{result.text}</ThemedText>
       </ThemedView>
     </SafeAreaView>
