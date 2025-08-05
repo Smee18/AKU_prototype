@@ -1,5 +1,4 @@
 import React from 'react';
-import 'react-native-reanimated';
 import Navigator from './navigation/navigationSetup';
 
 const RootLayout = () => {

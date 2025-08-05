@@ -9,7 +9,7 @@ type Props = {
   
 };
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: Props) {
   return (
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Welcome!</ThemedText>
@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    marginTop: 100,
   },
 });
