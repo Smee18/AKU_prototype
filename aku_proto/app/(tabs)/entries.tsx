@@ -1,5 +1,4 @@
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Text } from '@react-navigation/elements';
 import { useRouter } from 'expo-router';
 import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
 
@@ -10,17 +9,15 @@ export default function HomeScreen() {
 
   function onPressFunction(){
     console.log("Pressed")
-    router.replace('/results');
+    router.replace('./(test)/results');
   }
 
   return (
-    <SafeAreaView>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title" style={styles.titleText}>Welcome!</ThemedText>
+    <SafeAreaView style={styles.titleContainer}>
+        <Text style={styles.titleText}>Welcome!</Text>
         <Pressable onPress={onPressFunction} style={styles.button}>
-          <ThemedText>Next</ThemedText>
+          <Text>Next</Text>
         </Pressable>
-      </ThemedView>
     </SafeAreaView>
 
 

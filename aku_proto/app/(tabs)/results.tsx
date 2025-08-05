@@ -1,9 +1,8 @@
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Text } from '@react-navigation/elements';
 import { useMemo, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import InputField from '../components/numberInputs';
+import InputField from '../../components/numberInputs';
 
 export function ColorbyNumber(number: string): {text: string, color: string} {
     if (Number(number) <= 33) {
@@ -28,9 +27,8 @@ export default function OutcomeScreen() {
 
 
   return (
-    <SafeAreaView>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title" style={styles.titleText}>Welcome!</ThemedText>
+    <SafeAreaView style={styles.titleContainer}>
+        <Text style={styles.titleText}>Welcome!</Text>
         
         
         <AnimatedCircularProgress
@@ -49,8 +47,7 @@ export default function OutcomeScreen() {
         />
 
       <InputField placeholder="Enter a number" value={number} onChangeText={handleChangeText}/>
-      <ThemedText style={{color: result.color}}>{result.text}</ThemedText>
-      </ThemedView>
+      <Text style={{color: result.color}}>{result.text}</Text>
     </SafeAreaView>
 
 
