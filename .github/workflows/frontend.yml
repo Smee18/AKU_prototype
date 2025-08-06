@@ -3,10 +3,11 @@ name: Frontend CI
 on:
   push:
     paths:
-      - 'frontend/**'
+      - 'aku_proto/frontend/**'
   pull_request:
     paths:
-      - 'frontend/**'
+      - 'aku_proto/frontend/**'   
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,7 +19,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: frontend 
+        working-directory: aku_proto/frontend 
 
     steps:
       - uses: actions/checkout@v4
