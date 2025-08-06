@@ -4,16 +4,16 @@
 2. (Optional but recommended) Create and activate a Python virtual environment:
    - Create venv:
       ```bash
-       python -m venv venv
+       python -m venv .venv
        ```
    - Activate venv:
        * On Windows:
          ```bash
-         venv\Scripts\activate
+         .venv\Scripts\activate
          ```
        * On macOS/Linux:
          ```bash
-         source venv/bin/activate
+         source .venv/bin/activate
          ```
 
 3. Install required packages:
