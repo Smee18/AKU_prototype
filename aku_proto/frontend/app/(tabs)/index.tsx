@@ -2,7 +2,7 @@ import { Text } from '@react-navigation/elements';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
-import InputField from '../../components/numberInputs';
+import InputField from '@/components/numberInputs';
 
 
 export default function HomeScreen() {
@@ -16,9 +16,21 @@ export default function HomeScreen() {
   };
 
   function onPressFunction(){
-    console.log("Pressed")
-    router.replace({pathname: '/(tabs)/results', 
-                    params: {value: number}})
+    console.log("Pressed");
+    sendToBackend();
+  }
+
+  const sendToBackend = async () => {
+    const res = await fetch('http://172.17.9.66:8000/process', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value: number }),
+    });
+    const json = await res.json();
+    router.replace({
+      pathname: '/(tabs)/results',
+      params: { result: json.result },
+    });
   }
 
   return (

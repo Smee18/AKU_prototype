@@ -17,7 +17,7 @@ export function ColorbyNumber(number: string): {text: string, color: string} {
 
 export default function OutcomeScreen() {
 
-  const number = useLocalSearchParams().value as string;
+  const number = useLocalSearchParams().result as string;
   const result = useMemo(() => ColorbyNumber(number), [number]);
   const fill = Number(number);
 
