@@ -6,7 +6,8 @@ on:
       - 'backend/**'
   pull_request:
     paths:
-      - 'backend/**'
+      - 'backend/**'   
+  workflow_dispatch:
 
 permissions:
   contents: read
