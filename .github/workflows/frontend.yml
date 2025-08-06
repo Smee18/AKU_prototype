@@ -3,10 +3,11 @@ name: Frontend CI
 on:
   push:
     paths:
-      - 'frontend/**'
+      - 'aku_proto/frontend/**'
   pull_request:
     paths:
-      - 'frontend/**'
+      - 'aku_proto/frontend/**'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -14,11 +15,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [18.x]
 
     defaults:
       run:
-        working-directory: frontend 
+        working-directory: aku_proto/frontend
 
     steps:
       - uses: actions/checkout@v4
@@ -28,6 +29,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: aku_proto/frontend/package-lock.json 
 
-      - run: npm ci
-      - run: npm run build --if-present
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm run test
