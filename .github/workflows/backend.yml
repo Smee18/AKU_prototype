@@ -3,10 +3,10 @@ name: Backend CI
 on:
   push:
     paths:
-      - 'backend/**'
+      - 'aku_proto/backend/**'
   pull_request:
     paths:
-      - 'backend/**'   
+      - 'aku_proto/backend/**'   
   workflow_dispatch:
 
 permissions:
@@ -18,7 +18,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: backend 
+        working-directory: aku_proto/backend 
 
     steps:
       - uses: actions/checkout@v4
