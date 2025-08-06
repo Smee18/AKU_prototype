@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "aku_proto",
-    "slug": "aku_proto",
+    "name": "test-app",
+    "slug": "test-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "akuproto",
+    "scheme": "testapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

@@ -1,8 +1,7 @@
-import { Text } from '@react-navigation/elements';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
-import InputField from '@/components/numberInputs';
+import { Pressable, SafeAreaView, StyleSheet, Text } from 'react-native';
+import InputField from '@/components/NumberInputs';
 
 
 export default function HomeScreen() {
@@ -17,26 +16,35 @@ export default function HomeScreen() {
 
   function onPressFunction(){
     console.log("Pressed");
+    console.log({number})
     sendToBackend();
   }
 
   const sendToBackend = async () => {
-    const res = await fetch('http://172.17.9.66:8000/process', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ value: number }),
-    });
-    const json = await res.json();
-    router.replace({
-      pathname: '/(tabs)/results',
-      params: { result: json.result },
-    });
-  }
+    try {
+      const res = await fetch('http://172.17.9.66:8000/process', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ value: number }),
+      });
+
+      const json = await res.json();
+      console.log("Received", json.result);
+
+      router.replace({
+        pathname: '/(tabs)/results',
+        params: { result: json.result },
+      });
+    } catch (error) {
+      console.error("Failed to contact backend:", error);
+    }
+  };
+
 
   return (
     <SafeAreaView style={styles.titleContainer}>
         <Text style={styles.titleText}>Welcome!</Text>
-        <InputField placeholder="Enter a number" value={number} onChangeText={handleChangeText}/>
+        <InputField placeholder='Enter a number' value={number} onChangeText={handleChangeText}></InputField>
         <Pressable onPress={onPressFunction} style={styles.button}>
           <Text style={styles.buttonText}>Calculate</Text>
         </Pressable>
@@ -69,7 +77,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 10,
     marginTop: 'auto',
-    marginBottom: 30,
+    marginBottom: 80,
   },
 
   buttonText: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { TextInput, StyleSheet, View } from "react-native";
 
 interface InputFieldProps {
   placeholder: string;
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10,
     marginBottom: 7,
-    width: '50%'
+    width: 200,
 
   },
   input: {

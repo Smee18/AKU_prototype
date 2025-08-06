@@ -15,6 +15,8 @@ app.add_middleware(
 @app.post("/process")
 async def process_data(request: Request):
     data = await request.json()
+    print(data)
     value = data.get("value")
-    result = f"Processed: {value}"
-    return {"result": result + 10}
+    result = int(value) + 10
+    return {"result": result}
+
