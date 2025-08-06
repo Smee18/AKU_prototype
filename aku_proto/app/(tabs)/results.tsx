@@ -1,8 +1,8 @@
 import { Text } from '@react-navigation/elements';
-import { useMemo, useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import { useEffect, useMemo } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import InputField from '../../components/numberInputs';
 
 export function ColorbyNumber(number: string): {text: string, color: string} {
     if (Number(number) <= 33) {
@@ -17,13 +17,14 @@ export function ColorbyNumber(number: string): {text: string, color: string} {
 
 export default function OutcomeScreen() {
 
-  const [number, setNumber] = useState("");
+  const number = useLocalSearchParams().value as string;
   const result = useMemo(() => ColorbyNumber(number), [number]);
   const fill = Number(number);
 
-  const handleChangeText = (value: string) => {
-    setNumber(value);
-};
+  useEffect(() => {
+    console.log(number)
+    ColorbyNumber(number)
+  },[number]);
 
 
   return (
@@ -46,7 +47,6 @@ export default function OutcomeScreen() {
           lineCap="round"
         />
 
-      <InputField placeholder="Enter a number" value={number} onChangeText={handleChangeText}/>
       <Text style={{color: result.color}}>{result.text}</Text>
     </SafeAreaView>
 
