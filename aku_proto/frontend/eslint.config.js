@@ -9,12 +9,6 @@ module.exports = defineConfig([
   {
     ignores: ['dist/**'],
   },
-  
-  {
-  "env": {
-    "jest": true
-  }
-  },
 
   // Custom settings
   {
@@ -24,6 +18,17 @@ module.exports = defineConfig([
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
       },
+    },
+  },
+
+  // Language options (replaces env + globals in flat config)
+  {
+    languageOptions: {
+      globals: {
+        myCustomGlobal: 'readonly',
+      },
+      ecmaVersion: 2022,
+      sourceType: 'module',
     },
   },
 ]);
