@@ -1,12 +1,10 @@
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, SafeAreaView, StyleSheet, Text, Image, View} from 'react-native';
-import InputField from '../components/numberInputs.tsx';
-
+import React, { useState} from 'react';
+import { SafeAreaView, StyleSheet, Text, Image, View} from 'react-native';
+import InputField from '../components/numberInputs.js';
+import CalcButton from '../components/calculateButton.js';
 
 export default function HomeScreen() {
 
-  const router = useRouter();
   const [numberA, setNumberA] = useState("");
   const [numberB, setNumberB] = useState("");
   const [numberC, setNumberC] = useState("");
@@ -14,13 +12,6 @@ export default function HomeScreen() {
   const [numberAerr, setNumberAerr] = useState("");
   const [numberBerr, setNumberBerr] = useState("");
   const [numberCerr, setNumberCerr] = useState("");
-
-  
-  function onPressFunction(){
-    if (numberA.trim() !== "" && numberB.trim() !== "" && numberC.trim() !== "") {
-      sendToBackend();
-    }
-  }
 
   const validInputA = (value: string) => {
     setNumberA(value);
@@ -36,31 +27,6 @@ export default function HomeScreen() {
     setNumberC(value);
     setNumberCerr(value ? "" : "Value cannot be empty");
   };
-
-  const sendToBackend = async () => {
-    try {
-      const res = await fetch('http://172.17.9.66:8000/process', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          valueA: numberA,
-          valueB: numberB,
-          valueC: numberC
-         }),
-      });
-
-      const json = await res.json();
-      console.log("Received", json.result);
-
-      router.replace({
-        pathname: '/(tabs)/results',
-        params: { result: json.result },
-      });
-    } catch (error) {
-      console.error("Failed to contact backend:", error);
-    }
-  };
-
 
   return (
     <SafeAreaView style={styles.titleContainer}>
@@ -85,9 +51,16 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <Pressable onPress={onPressFunction} style={styles.button}>
-          <Text style={styles.buttonText}>Calculate</Text>
-        </Pressable>
+        <CalcButton
+          numberA={numberA}
+          numberB={numberB}
+          numberC={numberC}
+          onValidationError={(field) => {
+            if (field === 'A') setNumberAerr('Value cannot be empty');
+            if (field === 'B') setNumberBerr('Value cannot be empty');
+            if (field === 'C') setNumberCerr('Value cannot be empty');
+          }}
+        />
     </SafeAreaView>
 
 

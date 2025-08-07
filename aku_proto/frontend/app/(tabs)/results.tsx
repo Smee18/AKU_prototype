@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo} from 'react';
 import { SafeAreaView, StyleSheet, Text } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import ColorbyNumber from '../components/colorByNumber';

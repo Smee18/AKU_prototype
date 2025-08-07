@@ -6,3 +6,5 @@ test('Color by number test', () => {
   expect(ColorbyNumber("73")).toEqual({ text: "Danger", color: "red" });
 });
 ;
+
+
