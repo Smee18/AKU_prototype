@@ -1,15 +1,32 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import CalcButton from '../components/calculateButton';
 
-// Mock the router to prevent errors from useRouter
-jest.mock('expo-router', () => ({
-  useRouter: () => ({
-    replace: jest.fn(),
-  }),
-}));
+let mockReplaced: jest.Mock;
+
+jest.mock('expo-router', () => {
+  // Assign it inside the mock factory
+  mockReplaced = jest.fn();
+
+  return {
+    useRouter: () => ({
+      replace: mockReplaced,
+    }),
+  };
+});
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ result: '42' }),
+    })
+  ) as jest.Mock;
+});
 
 describe('CalcButton - Validation', () => {
+
   it('calls onValidationError with "A" when numberA is empty', () => {
     const mockValidation = jest.fn();
 
@@ -56,5 +73,29 @@ describe('CalcButton - Validation', () => {
 
     fireEvent.press(getByTestId('calc-button'));
     expect(mockValidation).toHaveBeenCalledWith('C');
+  });
+
+  describe('Results page', () => {
+    it('navigates to /results when Calculate is pressed', async () => {
+      const mockValidation = jest.fn();
+
+      const { getByTestId } = render(
+      <CalcButton
+        numberA="10"
+        numberB="20"
+        numberC="5"
+        onValidationError={mockValidation}
+      />
+    );
+      fireEvent.press(getByTestId('calc-button'));
+
+      await waitFor(() => {
+        expect(mockValidation).not.toHaveBeenCalled();
+        expect(mockReplaced).toHaveBeenCalledWith({
+          pathname: '/(tabs)/results',
+          params: {result: "42"},
+        });
+      })
+    });
   });
 });
