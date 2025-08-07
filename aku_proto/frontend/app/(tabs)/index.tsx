@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import { SafeAreaView, StyleSheet, Text, Image, View} from 'react-native';
-import InputField from '../components/numberInputs.js';
-import CalcButton from '../components/calculateButton.js';
+import InputField from '../components/numberInputs.tsx';
+import CalcButton from '../components/calculateButton.tsx';
 
 export default function HomeScreen() {
 
