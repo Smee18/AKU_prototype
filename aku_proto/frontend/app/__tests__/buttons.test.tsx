@@ -2,8 +2,6 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import CalcButton from '../components/calculateButton';
 
-jest.useFakeTimers();
-
 // Mock the router to prevent errors from useRouter
 jest.mock('expo-router', () => ({
   useRouter: () => ({
