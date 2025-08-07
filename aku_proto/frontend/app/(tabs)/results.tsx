@@ -2,17 +2,8 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { SafeAreaView, StyleSheet, Text } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import ColorbyNumber from '../components/colorByNumber';
 
-export function ColorbyNumber(number: string): { text: string; color: string } {
-  const value = Number(number);
-  if (value <= 33) {
-    return { text: 'Safe', color: 'green' };
-  } else if (value >= 66) {
-    return { text: 'Danger', color: 'red' };
-  } else {
-    return { text: 'Warning', color: 'orange' };
-  }
-}
 
 export default function OutcomeScreen() {
   const number = useLocalSearchParams().result as string;

@@ -9,6 +9,12 @@ module.exports = defineConfig([
   {
     ignores: ['dist/**'],
   },
+  
+  {
+  "env": {
+    "jest": true
+  }
+  },
 
   // Custom settings
   {

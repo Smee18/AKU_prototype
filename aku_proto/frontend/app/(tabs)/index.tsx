@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, Image, View} from 'react-native';
-import InputField from '../components/numberInputs';
+import InputField from '../components/numberInputs.tsx';
 
 
 export default function HomeScreen() {
