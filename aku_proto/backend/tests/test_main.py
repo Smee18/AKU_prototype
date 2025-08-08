@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from backend.main import app
 import os
 import pandas as pd
-from main import compute_z_score
+from backend.main import compute_z_score
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 client = TestClient(app)
