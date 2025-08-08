@@ -86,4 +86,9 @@ aku_proto/backend/.vscode/
 # macOS
 aku_proto/backend/.DS_Store
 
+##OTHER##
+aku_proto/.vscode
+aku_proto/.pytest_cache
+
+
 
