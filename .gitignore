@@ -1,0 +1,89 @@
+##FRONTEND##
+
+# dependencies
+aku_proto/frontend/node_modules/
+aku_proto/frontend/coverage/
+
+# Expo
+aku_proto/frontend/.expo/
+aku_proto/frontend/dist/
+aku_proto/frontend/web-build/
+aku_proto/frontend/expo-env.d.ts
+
+# Native
+aku_proto/frontend/.kotlin/
+aku_proto/frontend/*.orig.*
+aku_proto/frontend/*.jks
+aku_proto/frontend/*.p8
+aku_proto/frontend/*.p12
+aku_proto/frontend/*.key
+aku_proto/frontend/*.mobileprovision
+
+# Metro
+aku_proto/frontend/.metro-health-check*
+
+# debug
+aku_proto/frontend/npm-debug.*
+aku_proto/frontend/yarn-debug.*
+aku_proto/frontend/yarn-error.*
+
+# macOS
+aku_proto/frontend/.DS_Store
+aku_proto/frontend/*.pem
+
+# local env files
+aku_proto/frontend/.env*.local
+
+# typescript
+aku_proto/frontend/*.tsbuildinfo
+
+
+##BACKEND##
+
+# Byte-compiled / optimized / DLL files
+aku_proto/backend/__pycache__/
+aku_proto/backend/*.py[cod]
+aku_proto/backend/*$py.class
+
+# C extensions
+aku_proto/backend/*.so
+
+# Virtual environments
+aku_proto/backend/env/
+aku_proto/backend/venv/
+aku_proto/backend/.venv/
+
+# Environment variables
+aku_proto/backend/.env
+aku_proto/backend/.env.*
+
+# Pytest
+aku_proto/backend/.pytest_cache/
+
+# Mypy
+aku_proto/backend/.mypy_cache/
+
+# Coverage reports
+aku_proto/backend/htmlcov/
+aku_proto/backend/.coverage
+aku_proto/backend/.coverage.*
+
+# Logs and databases
+aku_proto/backend/*.log
+aku_proto/backend/*.sqlite3
+
+# PyInstaller
+aku_proto/backend/dist/
+aku_proto/backend/build/
+aku_proto/backend/*.spec
+
+# Jupyter Notebooks
+aku_proto/backend/.ipynb_checkpoints/
+
+# VSCode
+aku_proto/backend/.vscode/
+
+# macOS
+aku_proto/backend/.DS_Store
+
+
