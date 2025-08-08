@@ -33,7 +33,7 @@ const CalcButton: React.FC<CalcButtonProps> = ({
 
     // Send to backend
     try {
-      const res = await fetch('http://172.17.6.27:8000/process', {
+      const res = await fetch('http://172.17.15.144:8000/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
