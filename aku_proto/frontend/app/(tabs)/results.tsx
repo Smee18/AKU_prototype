@@ -11,7 +11,7 @@ export default function OutcomeScreen() {
   const fill = isNaN(Number(number)) ? 0 : Number(number);
 
   useEffect(() => {
-    console.log("Received number:", number);
+    console.log("Received z score:", number);
   }, [number]);
 
   return (

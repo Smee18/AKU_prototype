@@ -2,30 +2,31 @@ import React, { useState} from 'react';
 import { SafeAreaView, StyleSheet, Text, Image, View} from 'react-native';
 import InputField from '../components/numberInputs.tsx';
 import CalcButton from '../components/calculateButton.tsx';
+import Dropdown from '../components/dropdownGender.tsx';
 
 export default function HomeScreen() {
 
-  const [numberA, setNumberA] = useState("");
-  const [numberB, setNumberB] = useState("");
-  const [numberC, setNumberC] = useState("");
+  const [gender, setGender] = useState("")
+  const [age, setAge] = useState("");
+  const [weight, setWeight] = useState("");
 
-  const [numberAerr, setNumberAerr] = useState("");
-  const [numberBerr, setNumberBerr] = useState("");
-  const [numberCerr, setNumberCerr] = useState("");
+  const [genderErr, setGenderErr] = useState("");
+  const [ageErr, setAgeErr] = useState("");
+  const [weightErr, setWeightErr] = useState("");
 
-  const validInputA = (value: string) => {
-    setNumberA(value);
-    setNumberAerr(value ? "" : "Value cannot be empty");
+  const validGender = (value: string) => {
+    setGender(value);
+    setGenderErr(value ? "" : "Gender cannot be empty");
   };
 
-  const validInputB = (value: string) => {
-    setNumberB(value);
-    setNumberBerr(value ? "" : "Value cannot be empty");
+  const validAge = (value: string) => {
+    setAge(value);
+    setAgeErr(value ? "" : "Age cannot be empty");
   };
 
-  const validInputC = (value: string) => {
-    setNumberC(value);
-    setNumberCerr(value ? "" : "Value cannot be empty");
+  const validWeight = (value: string) => {
+    setWeight(value);
+    setWeightErr(value ? "" : "Weight cannot be empty");
   };
 
   return (
@@ -36,29 +37,29 @@ export default function HomeScreen() {
 
         <View style={styles.fields}>
           <View style={styles.inputWrapper}>
-            <InputField placeholder='Enter a number' value={numberA} onChangeText={validInputA} />
-            <Text style={styles.subs}>{numberAerr || " "}</Text>
+            <Dropdown onValueChange={validGender}></Dropdown>
+            {genderErr ? <Text style={styles.subs}>{genderErr}</Text> : null}
           </View>
 
           <View style={styles.inputWrapper}>
-            <InputField placeholder='Enter a number' value={numberB} onChangeText={validInputB} />
-            <Text style={styles.subs}>{numberBerr || " "}</Text>
+            <InputField placeholder='Enter the age in months' value={age} onChangeText={validAge} />
+            {ageErr ? <Text style={styles.subs}>{ageErr}</Text> : null}
           </View>
 
           <View style={styles.inputWrapper}>
-            <InputField placeholder='Enter a number' value={numberC} onChangeText={validInputC} />
-            <Text style={styles.subs}>{numberCerr || " "}</Text>
+            <InputField placeholder='Enter the weight in kg' value={weight} onChangeText={validWeight} />
+            {weightErr ? <Text style={styles.subs}>{weightErr}</Text> : null}
           </View>
         </View>
 
         <CalcButton
-          numberA={numberA}
-          numberB={numberB}
-          numberC={numberC}
+          gender={gender}
+          age={age}
+          weight={weight}
           onValidationError={(field) => {
-            if (field === 'A') setNumberAerr('Value cannot be empty');
-            if (field === 'B') setNumberBerr('Value cannot be empty');
-            if (field === 'C') setNumberCerr('Value cannot be empty');
+            if (field === 'A') setGenderErr('Gender cannot be empty');
+            if (field === 'B') setAgeErr('Age cannot be empty');
+            if (field === 'C') setWeightErr('Weight cannot be empty');
           }}
         />
     </SafeAreaView>

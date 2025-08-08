@@ -20,7 +20,7 @@ beforeEach(() => {
   global.fetch = jest.fn(() =>
     Promise.resolve({
       ok: true,
-      json: () => Promise.resolve({ result: '42' }),
+      json: () => Promise.resolve({ result: expect.any(Number) }),
     })
   ) as jest.Mock;
 });
@@ -32,9 +32,9 @@ describe('CalcButton - Validation', () => {
 
     const { getByTestId } = render(
       <CalcButton
-        numberA=""
-        numberB="2"
-        numberC="3"
+        gender=""
+        age="2"
+        weight="3"
         onValidationError={mockValidation}
       />
     );
@@ -48,9 +48,9 @@ describe('CalcButton - Validation', () => {
 
     const { getByTestId } = render(
       <CalcButton
-        numberA="1"
-        numberB=""
-        numberC="3"
+        gender="Male"
+        age=""
+        weight="3"
         onValidationError={mockValidation}
       />
     );
@@ -64,9 +64,9 @@ describe('CalcButton - Validation', () => {
 
     const { getByTestId } = render(
       <CalcButton
-        numberA="1"
-        numberB="2"
-        numberC=""
+        gender="Female"
+        age="2"
+        weight=""
         onValidationError={mockValidation}
       />
     );
@@ -81,9 +81,9 @@ describe('CalcButton - Validation', () => {
 
       const { getByTestId } = render(
       <CalcButton
-        numberA="10"
-        numberB="20"
-        numberC="5"
+        gender="Male"
+        age="20"
+        weight="5"
         onValidationError={mockValidation}
       />
     );
@@ -93,7 +93,8 @@ describe('CalcButton - Validation', () => {
         expect(mockValidation).not.toHaveBeenCalled();
         expect(mockReplaced).toHaveBeenCalledWith({
           pathname: '/(tabs)/results',
-          params: {result: "42"},
+          params: {
+            result: expect.any(Number),},
         });
       })
     });

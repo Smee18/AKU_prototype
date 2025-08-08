@@ -25,7 +25,7 @@ const InputField: React.FC<InputFieldProps> = ({ placeholder, value, onChangeTex
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1.5,
+    borderWidth: 1,
     borderColor: "#2F4858",
     padding: 12,
     borderRadius: 8,

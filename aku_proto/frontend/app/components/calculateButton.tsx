@@ -3,48 +3,48 @@ import React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 interface CalcButtonProps {
-  numberA: string;
-  numberB: string;
-  numberC: string;
-  onValidationError?: (field: 'A' | 'B' | 'C') => void;
+  gender: string;
+  age: string;
+  weight: string;
+  onValidationError?: (field: 'A' | 'B' | 'C' ) => void;
 }
 
 const CalcButton: React.FC<CalcButtonProps> = ({
-  numberA,
-  numberB,
-  numberC,
+  gender,
+  age,
+  weight,
   onValidationError,
 }) => {
   const router = useRouter();
 
   const handleClick = async () => {
-    if (!numberA.trim()) {
+    if (!gender.trim()) {
       onValidationError?.('A');
       return;
     }
-    if (!numberB.trim()) {
+    if (!age.trim()) {
       onValidationError?.('B');
       return;
     }
-    if (!numberC.trim()) {
+    if (!weight.trim()) {
       onValidationError?.('C');
       return;
     }
 
+    console.log("Trying to send", gender, age, weight)
     // Send to backend
     try {
       const res = await fetch('http://172.17.15.144:8000/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          valueA: numberA,
-          valueB: numberB,
-          valueC: numberC,
+          gender: gender,
+          age: age,
+          weight: weight,
         }),
       });
 
       const json = await res.json();
-
       router.replace({
         pathname: '/(tabs)/results',
         params: { result: json.result },
