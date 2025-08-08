@@ -1,10 +1,16 @@
 import React, { useState} from 'react';
 import { SafeAreaView, StyleSheet, Text, Image, View} from 'react-native';
 import InputField from '../components/numberInputs.tsx';
-import CalcButton from '../components/calculateButton.tsx';
+import NextButton from '../components/nextButton.tsx';
 import Dropdown from '../components/dropdownGender.tsx';
+import { WHOScreenNavigationProp } from '../navigation/types.ts';
 
-export default function HomeScreen() {
+type Props = {
+  navigation: WHOScreenNavigationProp;
+};
+
+
+export default function WHOScreen({navigation}: Props) {
 
   const [gender, setGender] = useState("")
   const [age, setAge] = useState("");
@@ -52,16 +58,21 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <CalcButton
-          gender={gender}
-          age={age}
-          weight={weight}
-          onValidationError={(field) => {
-            if (field === 'A') setGenderErr('Gender cannot be empty');
-            if (field === 'B') setAgeErr('Age cannot be empty');
-            if (field === 'C') setWeightErr('Weight cannot be empty');
-          }}
-        />
+      <View style={styles.footer}>
+        <NextButton
+        data={{ gender, age, weight }} 
+        validate={() => {
+          if (!gender.trim()) return 'A';
+          if (!age.trim()) return 'B';
+          if (!weight.trim()) return 'C';
+          return null;
+        }}
+        targetScreen="Q1Screen"
+        currentScreen="WHOScreen"
+      />
+      </View>
+
+
     </SafeAreaView>
 
 
@@ -126,6 +137,16 @@ const styles = StyleSheet.create({
 
   inputWrapper: {
     height: 90, 
+  },
+
+  footer: {
+  flex: 1,
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '100%',
+  marginBottom: 40,
+  marginRight: 50,
+
   },
 
 });

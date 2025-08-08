@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import CalcButton from '../components/calculateButton';
+import CalcButton from '../components/nextButton';
 
 let mockReplaced: jest.Mock;
 
