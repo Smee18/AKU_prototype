@@ -1,12 +1,12 @@
 from fastapi.testclient import TestClient
-from backend.main import app
+from backend.main import backend
 import os
 import pandas as pd
 from backend.main import compute_z_score, compute_q_score
 from unittest.mock import patch
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
-client = TestClient(app)
+client = TestClient(backend)
 
 def test_file_exists_boy():
     file_path = os.path.join(base_dir, '../../data/wfa_boys_0-to-5-years_zscores.csv')
@@ -46,8 +46,8 @@ def test_process_data():
 
 def test_functions_called_only_for_q9():
 
-    with patch("app.main.compute_z_score") as mock_a, \
-         patch("app.main.compute_q_score") as mock_b:
+    with patch("backend.main.compute_z_score") as mock_a, \
+         patch("backend.main.compute_q_score") as mock_b:
         response = client.post("/process", json={
             "data": 10,
             "currentScreen": "Q9Screen"
@@ -56,8 +56,8 @@ def test_functions_called_only_for_q9():
         mock_a.assert_called_once()
         mock_b.assert_called_once()
 
-    with patch("app.main.compute_z_score") as mock_a, \
-         patch("app.main.compute_q_score") as mock_b:
+    with patch("backend.main.compute_z_score") as mock_a, \
+         patch("backend.main.compute_q_score") as mock_b:
         response = client.post("/process", json={
             "data": 10,
             "currentScreen": "Q2Screen"
