@@ -34,7 +34,7 @@ def test_compute_q_score():
     q = compute_q_score()
     assert isinstance(q, int)
 
-def test_process_data(client):
+def test_process_data():
     response = client.post("/process", json={
         "data": 2,
         "currentScreen": "Q3Screen"
@@ -44,7 +44,7 @@ def test_process_data(client):
     data = response.json()
     assert isinstance(data["currentScreen"], str)
 
-def test_functions_called_only_for_q9(client):
+def test_functions_called_only_for_q9():
 
     with patch("app.main.compute_z_score") as mock_a, \
          patch("app.main.compute_q_score") as mock_b:
