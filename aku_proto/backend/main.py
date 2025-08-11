@@ -17,6 +17,8 @@ survey_answers = {
     "Q9Screen": 0,
 }
 
+scores = None
+
 def import_datasets():
     boy_scores = pd.read_csv(r'../data/wfa_boys_0-to-5-years_zscores.csv')
     girl_scores = pd.read_csv(r'../data/wfa_girls_0-to-5-years_zscores.csv')
@@ -49,6 +51,8 @@ app.add_middleware(
 
 @app.post("/process")
 async def process_data(request: Request):
+
+    global scores
     arrived = await request.json()
     data = arrived.get("data")
     current_screen = arrived.get("currentScreen")
@@ -76,7 +80,10 @@ async def process_data(request: Request):
 
         z_score = compute_z_score(weight, L, M, S)
         q_score = compute_q_score()
-        logger.info(z_score)
-        logger.info(q_score)
-        return {"z_score": z_score, "q_score": q_score}
+        scores = {"z_score": round(z_score, 2), "q_score": q_score}
+    
+@app.post("/getScores")  
+def get_scores():
+    logger.info(f"Sending: {scores}")
+    return scores
 

@@ -44,6 +44,7 @@ export default function Q9Screen({ navigation }: Props) {
           />
         </View>
       </View>
+      
 
       {/* Footer container */}
       <View style={styles.footer}>
