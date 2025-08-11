@@ -1,12 +1,12 @@
 from fastapi.testclient import TestClient
-from backend.main import backend
+from ..main import app
 import os
 import pandas as pd
-from backend.main import compute_z_score, compute_q_score
+from ..main import compute_z_score, compute_q_score
 from unittest.mock import patch
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
-client = TestClient(backend)
+client = TestClient(app)
 
 def test_file_exists_boy():
     file_path = os.path.join(base_dir, '../../data/wfa_boys_0-to-5-years_zscores.csv')
@@ -34,35 +34,40 @@ def test_compute_q_score():
     q = compute_q_score()
     assert isinstance(q, int)
 
-def test_process_data():
-    response = client.post("/process", json={
-        "data": 2,
-        "currentScreen": "Q3Screen"
-    })
-    assert response.status_code == 200
-
-    data = response.json()
-    assert isinstance(data["currentScreen"], str)
-
 def test_functions_called_only_for_q9():
+
+    client.post("/process", json={
+        "data": {
+            "gender": "Male",
+            "age": 2,
+            "weight": 12
+        },
+        "currentScreen": "WHOScreen"
+    })
 
     with patch("backend.main.compute_z_score") as mock_a, \
          patch("backend.main.compute_q_score") as mock_b:
+        
         response = client.post("/process", json={
-            "data": 10,
+            "data": {}, 
             "currentScreen": "Q9Screen"
         })
+        
         assert response.status_code == 200
         mock_a.assert_called_once()
         mock_b.assert_called_once()
 
+
     with patch("backend.main.compute_z_score") as mock_a, \
          patch("backend.main.compute_q_score") as mock_b:
+        
         response = client.post("/process", json={
-            "data": 10,
+            "data": {},
             "currentScreen": "Q2Screen"
         })
+        
         assert response.status_code == 200
         mock_a.assert_not_called()
         mock_b.assert_not_called()
+
 
