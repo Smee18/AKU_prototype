@@ -1,0 +1,32 @@
+# General ignores
+.git
+.gitignore
+.dockerignore
+*.md
+*.log
+.DS_Store
+.vscode
+.idea
+
+# Frontend specific ignores
+frontend/node_modules
+frontend/.expo
+frontend/.cache
+frontend/dist
+frontend/build
+frontend/coverage
+frontend/*.env
+
+# Backend specific ignores
+backend/__pycache__
+backend/.venv
+backend/venv
+backend/.env
+backend/.pytest_cache
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+
+# Data folder ignores (if needed)
+data/temp*
+data/*.tmp

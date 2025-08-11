@@ -47,7 +47,7 @@ describe('NextButton navigation', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'http://172.17.10.40:8000/process',
+      'http://192.168.100.158:8000/process',
       expect.objectContaining({
         method: 'POST',
         body: JSON.stringify({ data, currentScreen }),

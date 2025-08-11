@@ -1,0 +1,20 @@
+FROM python:3.9-slim-bullseye
+
+WORKDIR /app
+
+# Copy requirements first for caching
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy backend code only
+COPY backend/ .
+
+# Environment variables
+ENV PORT=8000
+ENV HOST=0.0.0.0
+
+# Expose the port
+EXPOSE ${PORT}
+
+# Run the application
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]

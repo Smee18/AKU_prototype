@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
-import numpy as np
 import logging
 
 survey_answers = {
@@ -25,7 +24,7 @@ def import_datasets():
     return boy_scores, girl_scores
 
 def compute_z_score(weight, L, M, S):
-    top = np.power(int(weight) / M, L) - 1
+    top = ((int(weight) / M)** L) - 1
     bottom = L * S
     return top / bottom
 

@@ -1,0 +1,21 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files first for better caching
+COPY frontend/package*.json ./
+
+# Install project dependencies
+RUN npm install
+
+# Install ngrok for tunnels (local project dependency)
+RUN npm install @expo/ngrok@^4.1.0
+
+# Copy the rest of the frontend files
+COPY frontend/ .
+
+# Expo ports + ngrok port
+EXPOSE 19000 19001 19002 4040
+
+# Use the local expo CLI from node_modules
+CMD ["npx", "expo", "start"]
