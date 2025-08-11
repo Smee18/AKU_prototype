@@ -4,7 +4,8 @@ This repo contains:
 - **Frontend**: React Native (Expo)
 - **Data**: CSV for backend
 - **Backend**: Python
-- Managed with **Docker Compose**
+
+Managed with **Docker Compose**
 
 ## Requirements
 - [Docker Desktop](https://www.docker.com/get-started) (includes Docker Compose)
