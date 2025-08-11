@@ -59,6 +59,7 @@ aku_proto/backend/.env.*
 
 # Pytest
 aku_proto/backend/.pytest_cache/
+aku_proto/backend/tests/__pytest_cache__/
 
 # Mypy
 aku_proto/backend/.mypy_cache/
@@ -89,6 +90,7 @@ aku_proto/backend/.DS_Store
 ##OTHER##
 aku_proto/.vscode
 aku_proto/.pytest_cache
+
 
 
 
