@@ -11,6 +11,16 @@ Managed with **Docker Compose**
 - [Docker Desktop](https://www.docker.com/get-started) (includes Docker Compose)
 - Expo Go mobile app with an account
 
+## Preliminary
+1. Get IPV4 from: 
+   ```
+   ipconfig
+   ```
+2. Update IP in files:
+   ```
+   aku_proto/frontend/app/components/nextButton.
+   aku_proto/frontend/app/tests/buttons.test.tsx
+   ``` 
 ## Quick Start
 1. Clone the repo or download as ZIP:
    ```
