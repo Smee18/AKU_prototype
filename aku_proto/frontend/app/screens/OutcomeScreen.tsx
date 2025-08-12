@@ -15,7 +15,7 @@ export default function OutcomeScreen({ navigation }: Props) {
 
   useEffect(() => {
 
-    fetch("http://172.17.10.40:8000/getScores", {
+    fetch("http://172.17.0.101:8000/getScores", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({})
@@ -38,7 +38,7 @@ export default function OutcomeScreen({ navigation }: Props) {
 
       {/* Footer container */}
       <View style={styles.footer}>
-        <BackButton targetScreen='WHOScreen' />
+        <BackButton targetScreen='BeginScreen' />
       </View>
 
     </SafeAreaView>

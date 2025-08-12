@@ -21,7 +21,9 @@ export default function Q8Screen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.page}>
-      {/* Content container */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>PHQ Questionnaire 8/9</Text>
+      </View>
       <View style={styles.content}>
         <Text style={styles.desc}>
           Over the last 2 weeks, how often have you been bothered by the following:
@@ -93,5 +95,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 30,
     paddingBottom: 30,
+  },
+  header: {
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  headerText: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });

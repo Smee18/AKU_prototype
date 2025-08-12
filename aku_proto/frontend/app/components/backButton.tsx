@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     alignItems: 'center', 
     justifyContent: 'center',
+    marginBottom: 60,
   },
 });
 

@@ -1,6 +1,10 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 
 export type AuthStackParamList = {
+  MotherInfoScreenA: undefined;
+  MotherInfoScreenB: undefined;
+  ClinicInfoScreen: undefined;
+  BeginScreen: undefined;
   WHOScreen: undefined;
   Q1Screen: undefined
   Q2Screen: undefined;
@@ -15,6 +19,10 @@ export type AuthStackParamList = {
 
 };
 
+export type MotherInfoScreenANavigationProp = StackNavigationProp<AuthStackParamList, "MotherInfoScreenA">;
+export type MotherInfoScreenBNavigationProp = StackNavigationProp<AuthStackParamList, "MotherInfoScreenB">;
+export type ClinicInfoScreenNavigationProp = StackNavigationProp<AuthStackParamList, "ClinicInfoScreen">;
+export type BeginScreenNavigationProp = StackNavigationProp<AuthStackParamList, "BeginScreen">;
 export type WHOScreenNavigationProp = StackNavigationProp<AuthStackParamList, "WHOScreen">;
 export type Q1ScreenNavigationProp = StackNavigationProp<AuthStackParamList, "Q1Screen">;
 export type Q2ScreenNavigationProp = StackNavigationProp<AuthStackParamList, "Q2Screen">;

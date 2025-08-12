@@ -29,7 +29,7 @@ const NextButton: React.FC<NextButtonProps> = ({
     console.log("Trying to send", data)
 
     try {
-      const res = await fetch('http://192.168.100.158:8000/process', {
+      const res = await fetch('http://172.17.0.101:8000/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({data, currentScreen}),
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 60,
     
   },
 });

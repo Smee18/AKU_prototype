@@ -1,12 +1,12 @@
-FROM node:20-alpine
+FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files first for better caching
-COPY frontend/package*.json ./
+# Copy package + lock files first for better caching
+COPY frontend/package.json frontend/package-lock.json ./
 
-# Install project dependencies
-RUN npm install
+# Install exact dependencies from lockfile
+RUN npm ci
 
 # Install ngrok for tunnels (local project dependency)
 RUN npm install @expo/ngrok@^4.1.0
@@ -18,4 +18,4 @@ COPY frontend/ .
 EXPOSE 19000 19001 19002 4040
 
 # Use the local expo CLI from node_modules
-CMD ["npx", "expo", "start"]
+CMD ["npx", "expo", "start", "--tunnel"]

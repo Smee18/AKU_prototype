@@ -11,6 +11,10 @@ import Q7Screen from '../screens/Q7Screen';
 import Q8Screen from '../screens/Q8Screen';
 import Q9Screen from '../screens/Q9Screen';
 import OutcomeScreen from '../screens/OutcomeScreen';
+import MotherInfoScreenA from '../screens/motherInfoScreenA';
+import MotherInfoScreenB from '../screens/motherInfoScreenB';
+import ClinicInfoScreen from '../screens/clinicInfoScreen';
+import BeginScreen from '../screens/beginScreen';
 
 const Stack = createStackNavigator();
 
@@ -28,7 +32,11 @@ const Navigator = () => {
     */
 
   return (
-      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="WHOScreen"> 
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="BeginScreen"> 
+        <Stack.Screen name="BeginScreen" component={BeginScreen} />
+        <Stack.Screen name="MotherInfoScreenA" component={MotherInfoScreenA} />
+        <Stack.Screen name="MotherInfoScreenB" component={MotherInfoScreenB} />
+        <Stack.Screen name="ClinicInfoScreen" component={ClinicInfoScreen} />
         <Stack.Screen name="WHOScreen" component={WHOScreen} />
         <Stack.Screen name="Q1Screen" component={Q1Screen} />
         <Stack.Screen name="Q2Screen" component={Q2Screen} />

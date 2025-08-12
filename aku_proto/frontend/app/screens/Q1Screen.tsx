@@ -16,12 +16,14 @@ export default function Q1Screen({ navigation }: Props) {
 
   const snapTo = (val: number) => {
     const snapped = Math.round(val);
-    setValue(snapped);
+    setValue(snapped - 1);
   };
 
   return (
     <SafeAreaView style={styles.page}>
-      {/* Content container */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>PHQ Questionnaire 1/9</Text>
+      </View>
       <View style={styles.content}>
         <Text style={styles.desc}>
           Over the last 2 weeks, how often have you been bothered by the following:
@@ -90,6 +92,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 30,
-    paddingBottom: 30,
+    marginBottom: 30,
+  },
+
+  header: {
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  headerText: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });
