@@ -4,6 +4,7 @@ import pandas as pd
 import logging
 import math
 
+#Stores the answers from each screen as a dict
 survey_answers = {
     "BeginScreen": 0,
     "MotherInfoScreenA": 0,
@@ -21,8 +22,8 @@ survey_answers = {
     "Q9Screen": 0,
 }
 
-scores = {}
-z_scores = {}
+scores = {} # Final dict which is send back
+z_scores = {} # Contains the 5 z-scores for the specified gender
 
 def import_datasets():
     boy_scores_wfa = pd.read_csv(r'../data/wfa_boys_0-to-5-years_zscores.csv')
@@ -37,11 +38,12 @@ def import_datasets():
     girl_scores_head = pd.read_csv(r'../data/hcfa-girls-0-5-zscores.csv')
     return [boy_scores_wfa, girl_scores_wfa, boy_scores_hfa, girl_scores_hfa, boy_scores_wfh, girl_scores_wfh, boy_scores_bmi, girl_scores_bmi, boy_scores_head, girl_scores_head]
 
-def map_value(x):
+def map_value(x): # Used to map the baby height the corresponding row using interpolation
 
     return int((x - 45) * (130) / (110 - 45))
 
-def z_score_formula(X, L, M, S):
+def z_score_formula(X, L, M, S): # Official WHO formula for z scores, will return None if provided values are incoherent (45kg 3 month baby)
+
     if S == 0:
         return None
     
@@ -50,19 +52,22 @@ def z_score_formula(X, L, M, S):
             return math.log(X / M) / S
         else:
             return (((X / M) ** L) - 1) / (L * S)
+        
     except (ValueError, ZeroDivisionError):
         return None  
 
 def compute_z_scores(age, weight, height, bmi, head_circ, gender):
-    vars = [weight, height, weight, bmi, head_circ]
-    cols = [age, age, height, age, age]
+
+    vars = [weight, height, weight, bmi, head_circ] # What we are measuring
+    cols = [age, age, height, age, age] # What it is relative to
 
     if gender == "Male":
         datasets_slice = datasets[::2] 
     else:
         datasets_slice = datasets[1::2]
     
-    for i, (var, col) in enumerate(zip(vars, cols)):
+    for i, (var, col) in enumerate(zip(vars, cols)): # For each var, extract the row from the dataset and the L,M,S values and compute z-scores
+
         logger.info(f"Calculating {var} for {col}")
         ref_row = datasets_slice[i].iloc[col]
         L, M, S = ref_row['L'], ref_row['M'], ref_row['S']
@@ -71,12 +76,16 @@ def compute_z_scores(age, weight, height, bmi, head_circ, gender):
     
     return z_scores
 
-def compute_q_score():
+def compute_q_score(): # PHQ score - adds up values from screens beginning with Q
+
     q_score = 0
+
     for key, val in survey_answers.items():
+
         if key.startswith("Q") and isinstance(val, dict):
             q_score += val.get("value", 0)
-    return q_score - 9
+
+    return q_score - 9 # Remove nine as default value is 1 not 0
 
 
 logger = logging.getLogger("uvicorn")
@@ -92,19 +101,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.post("/process")
+@app.post("/process") # Is called everytime the "Next" button is pressed
 async def process_data(request: Request):
 
     global scores
     arrived = await request.json()
     data = arrived.get("data")
     current_screen = arrived.get("currentScreen")
-    survey_answers[current_screen] = data
+    survey_answers[current_screen] = data # updates dict
 
-    if current_screen == "Q9Screen":
+    if current_screen == "Q9Screen": # Enter loop if we have reached the last screen
 
         logger.info(survey_answers)
 
+        #Extract all variables
         mother_dataA = survey_answers.get("MotherInfoScreenA", {})
         mother_dataB = survey_answers.get("MotherInfoScreenB", {})
         heightM = mother_dataB.get("heightM")
@@ -118,11 +128,17 @@ async def process_data(request: Request):
         bmiB = float(weightB) / float(heightB)
         bmiM = float(weightM) / float(heightM)
 
-        compute_z_scores(int(ageB), float(weightB), map_value(round(float(heightB) * 2) / 2), float(bmiB), float(head_circ), genderB)
+        compute_z_scores(int(ageB), 
+                         float(weightB), 
+                         map_value(round(float(heightB) * 2) / 2), 
+                         float(bmiB), 
+                         float(head_circ), 
+                         genderB)
 
         q_score = compute_q_score()
         scores = {**z_scores, **{"q_score": q_score}}
-    
+
+#Sends final scores back the frontend
 @app.post("/getScores")  
 def get_scores():
     logger.info(f"Sending: {scores}")
