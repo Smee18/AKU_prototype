@@ -16,20 +16,24 @@ Managed with **Docker Compose**
    ```
    ipconfig
    ```
-2. Update IP in files:
+2. Update IP in files where contact with the backend is set up:
    ```
    aku_proto/frontend/app/components/nextButton.
    aku_proto/frontend/app/tests/buttons.test.tsx
+   aku_proto/frontend/app/screens/OutcomeScreen.tsx
+   aku_proto/docker-compose.yml
    ``` 
 ## Quick Start
-1. Clone the repo or download as ZIP:
+1. Clone the repo or download as ZIP and extract:
    ```
    git clone <your-repo-url>
-   cd <your-repo-name>
    ```
-2. Boot up app
-   Ensure you are in the root directory: cd/path/to/project
+2. Ensure you are in the root directory where "aku_proto" is:
     ```
+   cd/path/to/project/aku_proto
+   ```
+3. Create your docker image and container:
+   ```
    docker-compose up --build
    ```
-3. Scan the QR Code
+4. Scan the QR code with your phone
