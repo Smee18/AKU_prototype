@@ -15,7 +15,7 @@ export default function OutcomeScreen({ navigation }: Props) {
 
   useEffect(() => {
 
-    fetch("http://172.17.0.101:8000/getScores", {
+    fetch("http://172.17.1.107:8000/getScores", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({})
