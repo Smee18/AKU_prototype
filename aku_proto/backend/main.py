@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import logging
 import math
-from prince import MCA
 
 #Stores the answers from each screen as a dict
 survey_answers = {
