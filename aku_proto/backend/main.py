@@ -112,7 +112,7 @@ def compute_phq_score(): # PHQ score - adds up values from screens beginning wit
     return q_score - 9 # Remove nine as default value is 1 not 0
 
 
-def calculate_wi_score():
+def compute_wi_score():
 
     WI_score = 0
 
@@ -217,7 +217,7 @@ async def process_data(request: Request):
 
         z_scores = compute_z_scores()
         phq_score = compute_phq_score()
-        wi_score = calculate_wi_score()
+        wi_score = compute_wi_score()
         logger.info(z_scores, phq_score, wi_score)
         score = predict(z_scores, phq_score, wi_score)
 

@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from ..main import app
 import os
 import pandas as pd
-from ..main import compute_phq_score, z_score_formula, compute_z_scores, map_value
+from ..main import compute_phq_score, z_score_formula, map_value, compute_wi_score
 from unittest.mock import patch
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -121,3 +121,7 @@ def test_z_score_formula():
 def test_compute_phq_score():
     q = compute_phq_score()
     assert isinstance(q, int)
+
+def test_compute_wi_score():
+    wi = compute_wi_score()
+    assert isinstance(wi, int)
