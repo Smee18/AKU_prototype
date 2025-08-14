@@ -28,7 +28,7 @@ export default function WIScreen8({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Wealth Index 8/9</Text>
+            <Text style={styles.head}>Wealth Index 9/10</Text>
             <GeneralQ 
                 question="What is the household's main source of cooking fuel?"
                 onSelect={handleFuel}

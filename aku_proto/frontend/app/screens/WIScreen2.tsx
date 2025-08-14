@@ -37,10 +37,10 @@ export default function WIScreen2({navigation}: Props) {
 
           <View style={styles.main}>
             <Text style={styles.head}>Wealth Index 2/9</Text>
-            <BinaryQ question="Do you own a computer" onSelect={handleComputer}></BinaryQ>
-            <BinaryQ question="Do you own a bicycle" onSelect={handleBicycle}></BinaryQ>
-            <BinaryQ question="Do you own a motorbike" onSelect={handleMotorbike}></BinaryQ>
-            <BinaryQ question="Do you own a car or truck" onSelect={handleCar}></BinaryQ>
+            <BinaryQ question="Do you own a computer?" onSelect={handleComputer}></BinaryQ>
+            <BinaryQ question="Do you own a bicycle?" onSelect={handleBicycle}></BinaryQ>
+            <BinaryQ question="Do you own a motorbike?" onSelect={handleMotorbike}></BinaryQ>
+            <BinaryQ question="Do you own a car or truck?" onSelect={handleCar}></BinaryQ>
           </View>
 
             {/* Footer container */}

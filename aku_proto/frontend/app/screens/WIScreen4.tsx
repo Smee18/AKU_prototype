@@ -21,7 +21,7 @@ export default function WIScreen4({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Wealth Index 4/9</Text>
+            <Text style={styles.head}>Wealth Index 5/10</Text>
             <GeneralQ 
                 question="What is the roof of the main dwelling predominantly made of?" 
                 onSelect={handleRoof}

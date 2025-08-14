@@ -21,7 +21,7 @@ export default function WIScreen9({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Wealth Index 9/9</Text>
+            <Text style={styles.head}>Wealth Index 10/10</Text>
             <GeneralQ 
                 question="What is the household's main source of lighting? " 
                 onSelect={handleLight}
@@ -40,7 +40,7 @@ export default function WIScreen9({navigation}: Props) {
             {/* Footer container */}
           <View style={styles.footer}>
             <BackButton targetScreen='WIScreen8'></BackButton>
-            <NextButton data={{isLight}} targetScreen='OutcomeScreen' currentScreen='WIScreen9' />
+            <NextButton data={{isLight}} targetScreen='PSScreen1' currentScreen='WIScreen9' />
           </View>
 
         </SafeAreaView>

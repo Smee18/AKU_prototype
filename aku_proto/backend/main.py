@@ -29,7 +29,10 @@ survey_answers = {
     "WIScreen6": 0,
     "WIScreen7": 0,
     "WIScreen8": 0,
-    "WIScreen9": 0
+    "WIScreen9": 0,
+    "PSScreen1": 0,
+    "PSScreen2": 0,
+    "PSScreen3": 0
 }
 
 scores = {} # Final dict which is send back
@@ -163,7 +166,7 @@ async def process_data(request: Request):
     current_screen = arrived.get("currentScreen")
     survey_answers[current_screen] = data # updates dict
 
-    if current_screen == "WIScreen9": # Enter loop if we have reached the last screen
+    if current_screen == "PSScreen9": # Enter loop if we have reached the last screen
 
         logger.info(survey_answers)
 

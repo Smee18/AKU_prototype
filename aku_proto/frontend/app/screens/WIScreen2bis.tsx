@@ -26,9 +26,9 @@ export default function WIScreen2bis({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Wealth Index 2/9</Text>
-            <BinaryQ question="Do you own a cooker" onSelect={handleCooker}></BinaryQ>
-            <BinaryQ question="Do you own a phone" onSelect={handlePhone}></BinaryQ>
+            <Text style={styles.head}>Wealth Index 3/10</Text>
+            <BinaryQ question="Do you own a cooker?" onSelect={handleCooker}></BinaryQ>
+            <BinaryQ question="Do you own a phone?" onSelect={handlePhone}></BinaryQ>
           </View>
 
             {/* Footer container */}

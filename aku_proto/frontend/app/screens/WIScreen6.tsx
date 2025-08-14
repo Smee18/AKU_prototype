@@ -27,7 +27,7 @@ export default function WIScreen6({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Wealth Index 6/9</Text>
+            <Text style={styles.head}>Wealth Index 7/10</Text>
             <GeneralQ 
                 question="What kind of toilet facility does your household have?"
                 onSelect={handleToilet}
@@ -36,7 +36,7 @@ export default function WIScreen6({navigation}: Props) {
                             { id: '3', label: 'Free range (bush/throw in a river)', value: '0' },
                             { id: '4', label: 'Other', value: '0' }]}>
             </GeneralQ>
-            <BinaryQ question='Is this toilet facility shared (e.g. with neighbours)' onSelect={handleShared}></BinaryQ>
+            <BinaryQ question='Is this toilet facility shared (e.g. with neighbours)?' onSelect={handleShared}></BinaryQ>
 
           </View>
 

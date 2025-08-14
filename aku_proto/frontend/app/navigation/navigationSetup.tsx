@@ -25,6 +25,9 @@ import WIScreen6 from '../screens/WIScreen6';
 import WIScreen7 from '../screens/WIScreen7';
 import WIScreen8 from '../screens/WIScreen8';
 import WIScreen9 from '../screens/WIScreen9';
+import PSScreen1 from '../screens/PSScreen1';
+import PSScreen2 from '../screens/PSScreen2';
+import PSScreen3 from '../screens/PSScreen3';
 
 const Stack = createStackNavigator();
 
@@ -42,7 +45,7 @@ const Navigator = () => {
     */
 
   return (
-      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="WIScreen1"> 
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="WIScreen9"> 
         <Stack.Screen name="BeginScreen" component={BeginScreen} />
         <Stack.Screen name="MotherInfoScreenA" component={MotherInfoScreenA} />
         <Stack.Screen name="MotherInfoScreenB" component={MotherInfoScreenB} />
@@ -67,6 +70,9 @@ const Navigator = () => {
         <Stack.Screen name="WIScreen7" component={WIScreen7} />
         <Stack.Screen name="WIScreen8" component={WIScreen8} />
         <Stack.Screen name="WIScreen9" component={WIScreen9} />
+        <Stack.Screen name="PSScreen1" component={PSScreen1} />
+        <Stack.Screen name="PSScreen2" component={PSScreen2} />
+        <Stack.Screen name="PSScreen3" component={PSScreen3} />
         <Stack.Screen name="OutcomeScreen" component={OutcomeScreen} />
 
       </Stack.Navigator>
