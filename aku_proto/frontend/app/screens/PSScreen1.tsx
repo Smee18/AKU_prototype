@@ -36,7 +36,7 @@ export default function PSScreen1({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Mother Information</Text>
+            <Text style={styles.head}>Physiosocial 1/13</Text>
             <BinaryQ question="Do you like reading newspapers?" onSelect={handleNews}></BinaryQ>
             <BinaryQ question="Does your child have toys?" onSelect={handleToys}></BinaryQ>
             <BinaryQ question="Does your child have a place to play?" onSelect={handlePlaceToPlay}></BinaryQ>

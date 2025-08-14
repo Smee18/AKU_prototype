@@ -36,7 +36,7 @@ export default function PSScreen3({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Mother Information</Text>
+            <Text style={styles.head}>Physiosocial 3/13</Text>
             <BinaryQ question="Do you have any friends with children the same age as your child?" onSelect={handleFriends}></BinaryQ>
             <BinaryQ question="Does the father or adult male participate in raising him?" onSelect={handleFather}></BinaryQ>
             <BinaryQ question="Is there anyone in the household studying higher education?" onSelect={handleHigherEd}></BinaryQ>

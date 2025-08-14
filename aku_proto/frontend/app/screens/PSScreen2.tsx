@@ -36,7 +36,7 @@ export default function PSScreen2({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Mother Information</Text>
+            <Text style={styles.head}>Physiosocial 2/13</Text>
             <BinaryQ question="Do you have any pets at home?" onSelect={handlePets}></BinaryQ>
             <BinaryQ question="Have you ever spanked your child?" onSelect={handleSpank}></BinaryQ>
             <BinaryQ question="Do you talk to your child when you do homework?" onSelect={handleHomeworkTalk}></BinaryQ>
