@@ -29,7 +29,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
     volumes:
-      - ./frontend/src:/app/src          # Only mount source files
+      - ./frontend/src:/app        # Only mount source files
       - node_modules:/app/node_modules    # Keep node_modules between runs
       - metro-cache:/app/node_modules/.cache
       - expo-cache:/app/.expo
