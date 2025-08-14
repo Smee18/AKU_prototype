@@ -51,7 +51,7 @@ export default function Q9Screen({ navigation }: Props) {
       {/* Footer container */}
       <View style={styles.footer}>
         <BackButton targetScreen='Q8Screen' />
-        <NextButton data={{value}} targetScreen='OutcomeScreen' currentScreen='Q9Screen' />
+        <NextButton data={{value}} targetScreen='WIScreen1' currentScreen='Q9Screen' />
       </View>
     </SafeAreaView>
   );

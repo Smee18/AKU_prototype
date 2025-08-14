@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import logging
 import math
+from prince import MCA
 
 #Stores the answers from each screen as a dict
 survey_answers = {
@@ -20,6 +21,15 @@ survey_answers = {
     "Q7Screen": 0,
     "Q8Screen": 0,
     "Q9Screen": 0,
+    "WIScreen1": 0,
+    "WIScreen2": 0,
+    "WIScreen3": 0,
+    "WIScreen4": 0,
+    "WIScreen5": 0,
+    "WIScreen6": 0,
+    "WIScreen7": 0,
+    "WIScreen8": 0,
+    "WIScreen9": 0
 }
 
 scores = {} # Final dict which is send back
@@ -88,6 +98,49 @@ def compute_q_score(): # PHQ score - adds up values from screens beginning with 
     return q_score - 9 # Remove nine as default value is 1 not 0
 
 
+def create_MCA_dataset():
+
+    answer_array = []
+    columns_names = ["Radio",
+                     "TV",
+                     "VM",
+                     "Fridge",
+                     "Computer",
+                     "Bicycle",
+                     "Motorbike",
+                     "Car",
+                     "Cooker",
+                     "Phone",
+                     "Wall",
+                     "Roof",
+                     "Floor",
+                     "Rented house",
+                     "Toilet",
+                     "Shared toilet",
+                     "Source water",
+                     "Frequency water",
+                     "Fuel",
+                     "Cook",
+                     "Light"]
+
+    for key, val in survey_answers.items():
+
+        if key.startswith("WI") and isinstance(val, dict):
+            for c,v in val.items():
+                if c == "isRent" or c == "isShared":
+                    v = bool(int(v))
+                    answer_array.append(int(not v))
+                else: 
+                    answer_array.append(int(v))
+
+    dataset = pd.DataFrame([answer_array], columns=columns_names)
+
+    logger.info("Created dataset for MCA")
+    logger.info(dataset)
+
+    return dataset
+
+
 logger = logging.getLogger("uvicorn")
 app = FastAPI()
 datasets = import_datasets()
@@ -110,11 +163,12 @@ async def process_data(request: Request):
     current_screen = arrived.get("currentScreen")
     survey_answers[current_screen] = data # updates dict
 
-    if current_screen == "Q9Screen": # Enter loop if we have reached the last screen
+    if current_screen == "WIScreen9": # Enter loop if we have reached the last screen
 
         logger.info(survey_answers)
 
         #Extract all variables
+        MCA_dataset = create_MCA_dataset()
         mother_dataA = survey_answers.get("MotherInfoScreenA", {})
         mother_dataB = survey_answers.get("MotherInfoScreenB", {})
         heightM = mother_dataB.get("heightM")

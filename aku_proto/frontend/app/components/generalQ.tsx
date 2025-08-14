@@ -2,29 +2,28 @@ import React, {useMemo, useState, useEffect} from "react";
 import { Text, StyleSheet, View } from "react-native";
 import RadioGroup from "react-native-radio-buttons-group";
 
-interface BinaryQProps {
-  question: string;
-  onSelect: (value: string) => void;
-  value?: string;
+interface Option {
+  id: string;
+  label: string;
+  value: string;
 }
 
-const BinaryQ: React.FC<BinaryQProps> = ({ question, onSelect }) => {
-  const radioButtons = useMemo(() => ([
-    {
-      id: '1',
-      label: 'Yes',
-      value: '1',
-      color: '#4CAF50',
-      labelStyle: { color: '#333', fontSize: 16 }
-    },
-    {
-      id: '2',
-      label: 'No',
-      value: '0',
-      color: '#F44336',
-      labelStyle: { color: '#333', fontSize: 16 }
-    }
-  ]), []);
+interface GeneralQProps {
+  question: string;
+  onSelect: (value: string) => void;
+  options: Option[];
+}
+
+const GeneralQ: React.FC<GeneralQProps> = ({ question, onSelect, options }) => {
+
+    const radioButtons = useMemo(() => (
+        options.map((option) => ({
+            id: option.id,
+            label: option.label,
+            value: option.value,
+            labelStyle: { color: '#333', fontSize: 16 }
+        }))
+        ), [options]);
 
   const [selectedId, setSelectedId] =  useState<string>('1');
 
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    padding: 20,
+    padding: 10,
     marginHorizontal: 20,
     shadowColor: '#000',
     shadowOffset: {
@@ -79,15 +78,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   radioGroup: {
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: 'column', 
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start', 
+    gap: 10, 
   },
   radioButton: {
-    marginHorizontal: 10,
+    marginVertical: 8, 
   },
   radioLabel: {
     marginLeft: 8,
   },
 });
 
-export default BinaryQ;
+export default GeneralQ;
