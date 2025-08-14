@@ -30,9 +30,6 @@ survey_answers = {
     "WIScreen7": 0,
     "WIScreen8": 0,
     "WIScreen9": 0,
-    "PSScreen1": 0,
-    "PSScreen2": 0,
-    "PSScreen3": 0
 }
 
 scores = {} # Final dict which is send back
@@ -101,30 +98,9 @@ def compute_q_score(): # PHQ score - adds up values from screens beginning with 
     return q_score - 9 # Remove nine as default value is 1 not 0
 
 
-def create_MCA_dataset():
+def calculate_WI_score():
 
-    answer_array = []
-    columns_names = ["Radio",
-                     "TV",
-                     "VM",
-                     "Fridge",
-                     "Computer",
-                     "Bicycle",
-                     "Motorbike",
-                     "Car",
-                     "Cooker",
-                     "Phone",
-                     "Wall",
-                     "Roof",
-                     "Floor",
-                     "Rented house",
-                     "Toilet",
-                     "Shared toilet",
-                     "Source water",
-                     "Frequency water",
-                     "Fuel",
-                     "Cook",
-                     "Light"]
+    WI_score = 0
 
     for key, val in survey_answers.items():
 
@@ -132,16 +108,11 @@ def create_MCA_dataset():
             for c,v in val.items():
                 if c == "isRent" or c == "isShared":
                     v = bool(int(v))
-                    answer_array.append(int(not v))
+                    WI_score += (int(not v))
                 else: 
-                    answer_array.append(int(v))
-
-    dataset = pd.DataFrame([answer_array], columns=columns_names)
-
-    logger.info("Created dataset for MCA")
-    logger.info(dataset)
-
-    return dataset
+                    WI_score += int(v)
+                    
+    return WI_score
 
 
 logger = logging.getLogger("uvicorn")
@@ -166,12 +137,11 @@ async def process_data(request: Request):
     current_screen = arrived.get("currentScreen")
     survey_answers[current_screen] = data # updates dict
 
-    if current_screen == "PSScreen9": # Enter loop if we have reached the last screen
+    if current_screen == "WIScreen9": # Enter loop if we have reached the last screen
 
         logger.info(survey_answers)
 
         #Extract all variables
-        MCA_dataset = create_MCA_dataset()
         mother_dataA = survey_answers.get("MotherInfoScreenA", {})
         mother_dataB = survey_answers.get("MotherInfoScreenB", {})
         heightM = mother_dataB.get("heightM")
@@ -193,6 +163,7 @@ async def process_data(request: Request):
                          genderB)
 
         q_score = compute_q_score()
+        WI_score = calculate_WI_score()
         scores = {**z_scores, **{"q_score": q_score}}
 
 #Sends final scores back the frontend
@@ -200,4 +171,3 @@ async def process_data(request: Request):
 def get_scores():
     logger.info(f"Sending: {scores}")
     return scores
-

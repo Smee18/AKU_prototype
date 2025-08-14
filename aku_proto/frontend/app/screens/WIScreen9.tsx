@@ -40,7 +40,7 @@ export default function WIScreen9({navigation}: Props) {
             {/* Footer container */}
           <View style={styles.footer}>
             <BackButton targetScreen='WIScreen8'></BackButton>
-            <NextButton data={{isLight}} targetScreen='PSScreen1' currentScreen='WIScreen9' />
+            <NextButton data={{isLight}} targetScreen='OutcomeScreen' currentScreen='WIScreen9' />
           </View>
 
         </SafeAreaView>
