@@ -42,7 +42,7 @@ const Navigator = () => {
     */
 
   return (
-      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="WIScreen9"> 
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="BeginScreen"> 
         <Stack.Screen name="BeginScreen" component={BeginScreen} />
         <Stack.Screen name="MotherInfoScreenA" component={MotherInfoScreenA} />
         <Stack.Screen name="MotherInfoScreenB" component={MotherInfoScreenB} />
