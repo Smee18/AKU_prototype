@@ -28,6 +28,9 @@ export type AuthStackParamList = {
   PSScreen1: undefined;
   PSScreen2: undefined;
   PSScreen3: undefined;
+  PSScreen4: undefined;
+  PSScreen5: undefined;
+  PSScreen6: undefined;
   OutcomeScreen: { result: any };
 
 };
@@ -59,6 +62,9 @@ export type WIScreen9NavigationProp = StackNavigationProp<AuthStackParamList, "W
 export type PSScreen1NavigationProp = StackNavigationProp<AuthStackParamList, "PSScreen1">;
 export type PSScreen2NavigationProp = StackNavigationProp<AuthStackParamList, "PSScreen2">;
 export type PSScreen3NavigationProp = StackNavigationProp<AuthStackParamList, "PSScreen3">;
+export type PSScreen4NavigationProp = StackNavigationProp<AuthStackParamList, "PSScreen4">;
+export type PSScreen5NavigationProp = StackNavigationProp<AuthStackParamList, "PSScreen5">;
+export type PSScreen6NavigationProp = StackNavigationProp<AuthStackParamList, "PSScreen6">;
 export type OutcomeScreenNavigationProp = StackNavigationProp<AuthStackParamList, "OutcomeScreen">;
 
 

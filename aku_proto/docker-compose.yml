@@ -7,7 +7,6 @@ services:
       - "8000:8000"
     volumes:
       - ./data:/data
-      - ./backend:/app
     environment:
       - PORT=8000
     restart: unless-stopped
