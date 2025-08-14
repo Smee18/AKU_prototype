@@ -42,8 +42,8 @@ export default function ClinicInfoScreen({navigation}: Props) {
                     {nbPregErr ? <Text style={styles.subs}>{nbPregErr}</Text> : null}
                 </View>
 
-                <BinaryQ question="Do you have access to a clinic for birth" onSelect={handleClinic}></BinaryQ>
-                <BinaryQ question="Do you have access to an assistant nurse for birth" onSelect={handleNurse}></BinaryQ>
+                <BinaryQ question="Do you have access to a clinic for birth?" onSelect={handleClinic}></BinaryQ>
+                <BinaryQ question="Do you have access to an assistant nurse for birth?" onSelect={handleNurse}></BinaryQ>
             </View>
  
 

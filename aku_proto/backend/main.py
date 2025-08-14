@@ -80,7 +80,7 @@ def compute_z_scores():
     weight = who_data.get("weightB")
     height = who_data.get("heightB")
     head_circ = who_data.get("head")
-    bmi = float(weight) / float(height)
+    bmi = float(weight) / ((float(height) / 100)**2)
 
     vars = [weight, height, weight, bmi, head_circ] # What we are measuring
     cols = [age, age, map_value(round(float(height) * 2) / 2), age, age] # What it is relative to
@@ -146,7 +146,7 @@ def predict(z, phq, wi):
     weightM = mother_dataB.get("weightM")
     kids = mother_dataB.get("nbKids")
     under5 = mother_dataB.get("under5")
-    bmiM = float(weightM) / float(heightM)
+    bmiM = float(weightM) / ((float(heightM) / 100)**2)
 
     preg = clinic_data.get("nbPreg")
     nurse = clinic_data.get("isNurse")
@@ -167,7 +167,7 @@ def predict(z, phq, wi):
     'Child weight-for-age z-scores': [z[0]],
     'Child height-for-age z-scores': [z[1]],
     'Child weight-for-height z-scores': [z[2]],
-    'Wealth index': [wi],
+    'Wealth index': [2], #SET TO WI ONCE MCA WORKS
     'Maternal age (years)': [ageM],
     'Child birthweight (kg)': [weightB],
     'Maternal depressive symptom scores': [phq],
@@ -178,10 +178,12 @@ def predict(z, phq, wi):
     'Child BMI z-scores': [z[3]],
     'Child head circumference z-scores': [z[4]]
     }
+
+    for c,v in input.items():
+        logger.info(f"{c} -> {v}")
     
     df_input = pd.DataFrame(input)
 
-    logger.info(df_input)
 
     y_pred = model.predict(df_input)
     return int(y_pred[0])
@@ -218,7 +220,6 @@ async def process_data(request: Request):
         z_scores = compute_z_scores()
         phq_score = compute_phq_score()
         wi_score = compute_wi_score()
-        logger.info(z_scores, phq_score, wi_score)
         score = predict(z_scores, phq_score, wi_score)
 
 #Sends final scores back the frontend
