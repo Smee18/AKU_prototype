@@ -16,7 +16,7 @@ export default function Q1Screen({ navigation }: Props) {
 
   const snapTo = (val: number) => {
     const snapped = Math.round(val);
-    setValue(snapped - 1);
+    setValue(snapped);
   };
 
   return (

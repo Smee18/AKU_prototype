@@ -26,7 +26,7 @@ export default function WIScreen3({navigation}: Props) {
                 question="What are the walls of the main dwelling predominantly made of?" 
                 onSelect={handleWall}
                 options={[  { id: '1', label: 'Stone', value: '1'},
-                            { id: '2', label: 'Bricks/BLocks', value: '1'},
+                            { id: '2', label: 'Bricks/Blocks', value: '1'},
                             { id: '3', label: 'Mud', value: '0' },
                             { id: '4', label: 'Wood', value: '0' },
                             { id: '5', label: 'Cement', value: '0' },

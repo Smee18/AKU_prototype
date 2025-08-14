@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import logging
 import math
+import joblib
 
 #Stores the answers from each screen as a dict
 survey_answers = {
@@ -22,6 +23,7 @@ survey_answers = {
     "Q9Screen": 0,
     "WIScreen1": 0,
     "WIScreen2": 0,
+    "WIScreen2bis": 0,
     "WIScreen3": 0,
     "WIScreen4": 0,
     "WIScreen5": 0,
@@ -31,8 +33,11 @@ survey_answers = {
     "WIScreen9": 0,
 }
 
-scores = {} # Final dict which is send back
-z_scores = {} # Contains the 5 z-scores for the specified gender
+score = 0
+
+def import_model():
+    model = joblib.load(r"../data/logistic_regression_trained_with_21_model.pkl")
+    return model
 
 def import_datasets():
     boy_scores_wfa = pd.read_csv(r'../data/wfa_boys_0-to-5-years_zscores.csv')
@@ -65,10 +70,20 @@ def z_score_formula(X, L, M, S): # Official WHO formula for z scores, will retur
     except (ValueError, ZeroDivisionError):
         return None  
 
-def compute_z_scores(age, weight, height, bmi, head_circ, gender):
+def compute_z_scores():
+
+    z_scores = []
+
+    who_data = survey_answers.get("WHOScreen", {})
+    gender = who_data.get("gender")
+    age = who_data.get("age")
+    weight = who_data.get("weightB")
+    height = who_data.get("heightB")
+    head_circ = who_data.get("head")
+    bmi = float(weight) / float(height)
 
     vars = [weight, height, weight, bmi, head_circ] # What we are measuring
-    cols = [age, age, height, age, age] # What it is relative to
+    cols = [age, age, map_value(round(float(height) * 2) / 2), age, age] # What it is relative to
 
     if gender == "Male":
         datasets_slice = datasets[::2] 
@@ -78,14 +93,14 @@ def compute_z_scores(age, weight, height, bmi, head_circ, gender):
     for i, (var, col) in enumerate(zip(vars, cols)): # For each var, extract the row from the dataset and the L,M,S values and compute z-scores
 
         logger.info(f"Calculating {var} for {col}")
-        ref_row = datasets_slice[i].iloc[col]
+        ref_row = datasets_slice[i].iloc[int(col)]
         L, M, S = ref_row['L'], ref_row['M'], ref_row['S']
-        z_scores[i] = z_score_formula(var, L, M, S)
+        z_scores.append(z_score_formula(float(var), L, M, S))
         logger.info("Success")
     
     return z_scores
 
-def compute_q_score(): # PHQ score - adds up values from screens beginning with Q
+def compute_phq_score(): # PHQ score - adds up values from screens beginning with Q
 
     q_score = 0
 
@@ -97,7 +112,7 @@ def compute_q_score(): # PHQ score - adds up values from screens beginning with 
     return q_score - 9 # Remove nine as default value is 1 not 0
 
 
-def calculate_WI_score():
+def calculate_wi_score():
 
     WI_score = 0
 
@@ -113,10 +128,70 @@ def calculate_WI_score():
                     
     return WI_score
 
+def predict(z, phq, wi):
+
+    #Extract all variables
+    mother_dataA = survey_answers.get("MotherInfoScreenA", {})
+    mother_dataB = survey_answers.get("MotherInfoScreenB", {})
+    clinic_data = survey_answers.get("ClinicInfoScreen", {})
+    who_data = survey_answers.get("WHOScreen", {})
+
+    isEdu = mother_dataA.get("isEdu")
+    isMainEdu = mother_dataA.get("isMainEdu")
+    isMarried = mother_dataA.get("isMarried")
+    isMuslim = mother_dataA.get("isMuslim")
+
+    ageM = mother_dataB.get("age")
+    heightM = mother_dataB.get("heightM")
+    weightM = mother_dataB.get("weightM")
+    kids = mother_dataB.get("nbKids")
+    under5 = mother_dataB.get("under5")
+    bmiM = float(weightM) / float(heightM)
+
+    preg = clinic_data.get("nbPreg")
+    nurse = clinic_data.get("isNurse")
+    clinic = clinic_data.get("isClinic")
+
+    ageB = who_data.get("age")
+    weightB = who_data.get("weightB")
+
+    input = {
+    'Maternal BMI': [bmiM],
+    'Maternal education_Primary': [isMainEdu],
+    'Maternal education_No education': [isEdu],
+    'Number of pregnancies': [preg],
+    'Maternal religion_Islam': [isMuslim],
+    'Delivery assistant_Nurse': [nurse],
+    'Maternal marital status_Unmarried': [isMarried],
+    'Child age (months)': [ageB],
+    'Child weight-for-age z-scores': [z[0]],
+    'Child height-for-age z-scores': [z[1]],
+    'Child weight-for-height z-scores': [z[2]],
+    'Wealth index': [wi],
+    'Maternal age (years)': [ageM],
+    'Child birthweight (kg)': [weightB],
+    'Maternal depressive symptom scores': [phq],
+    'Place of delivery_Clinic': [clinic],
+    'Number of children aged 1 to 5 years': [under5],
+    'Total number of children': [kids],
+    'Psychosocial stimulation scores': [15],
+    'Child BMI z-scores': [z[3]],
+    'Child head circumference z-scores': [z[4]]
+    }
+    
+    df_input = pd.DataFrame(input)
+
+    logger.info(df_input)
+
+    y_pred = model.predict(df_input)
+    return int(y_pred[0])
+
+
 
 logger = logging.getLogger("uvicorn")
 app = FastAPI()
 datasets = import_datasets()
+model = import_model()
 
 # Allow access from your Expo client
 app.add_middleware(
@@ -130,7 +205,7 @@ app.add_middleware(
 @app.post("/process") # Is called everytime the "Next" button is pressed
 async def process_data(request: Request):
 
-    global scores
+    global score
     arrived = await request.json()
     data = arrived.get("data")
     current_screen = arrived.get("currentScreen")
@@ -140,33 +215,14 @@ async def process_data(request: Request):
 
         logger.info(survey_answers)
 
-        #Extract all variables
-        mother_dataA = survey_answers.get("MotherInfoScreenA", {})
-        mother_dataB = survey_answers.get("MotherInfoScreenB", {})
-        heightM = mother_dataB.get("heightM")
-        weightM = mother_dataB.get("weightM")
-        who_data = survey_answers.get("WHOScreen", {})
-        genderB = who_data.get("gender")
-        ageB = who_data.get("age")
-        weightB = who_data.get("weightB")
-        heightB = who_data.get("heightB")
-        head_circ = who_data.get("head")
-        bmiB = float(weightB) / float(heightB)
-        bmiM = float(weightM) / float(heightM)
-
-        compute_z_scores(int(ageB), 
-                         float(weightB), 
-                         map_value(round(float(heightB) * 2) / 2), 
-                         float(bmiB), 
-                         float(head_circ), 
-                         genderB)
-
-        q_score = compute_q_score()
-        WI_score = calculate_WI_score()
-        scores = {**z_scores, **{"q_score": q_score}}
+        z_scores = compute_z_scores()
+        phq_score = compute_phq_score()
+        wi_score = calculate_wi_score()
+        logger.info(z_scores, phq_score, wi_score)
+        score = predict(z_scores, phq_score, wi_score)
 
 #Sends final scores back the frontend
 @app.post("/getScores")  
 def get_scores():
-    logger.info(f"Sending: {scores}")
-    return scores
+    logger.info(f"Sending: {score}")
+    return {"score": score}

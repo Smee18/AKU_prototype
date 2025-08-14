@@ -7,14 +7,11 @@ type Props = {
   navigation: OutcomeScreenNavigationProp;
 };
 
-
 export default function OutcomeScreen({ navigation }: Props) {
-  const [scores, setScores] = useState<{ z_score: number; q_score: number }| null>(null);
-  //const result = useMemo(() => ColorbyNumber(number), [number]);
-  //const fill = isNaN(Number(number)) ? 0 : Number(number);
+  
+  const [score, setScore] = useState<number | null>(null);
 
   useEffect(() => {
-
     fetch("http://172.17.15.242:8000/getScores", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -22,8 +19,8 @@ export default function OutcomeScreen({ navigation }: Props) {
     })
       .then(res => res.json())
       .then(data => {
-        setScores(data);
-        console.log(data)
+        setScore(data.score); 
+        console.log(data);
       })
       .catch(err => {
         console.error("Error fetching scores:", err);
@@ -31,41 +28,56 @@ export default function OutcomeScreen({ navigation }: Props) {
   }, []);
 
   return (
-    <SafeAreaView style={styles.titleContainer}>
-      <Text style={styles.titleText}>Welcome!</Text>
-      <Text>z_score: {scores?.z_score}</Text>
-      <Text>q_score: {scores?.q_score}</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.titleText}>Model output:</Text>
+        <Text
+          style={[
+            styles.scoreText,
+            {
+              color: score === 1 ? 'red' : 'green',
+            },
+          ]}
+        >
+          {score === 1 ? 'OFF-TRACK DEVELOPMENT' : 'ON-TRACK DEVELOPMENT'}
+        </Text>
+      </View>
 
       {/* Footer container */}
       <View style={styles.footer}>
-        <BackButton targetScreen='BeginScreen' />
+        <BackButton targetScreen="BeginScreen" />
       </View>
-
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
+  container: {
+    flex: 1,
     backgroundColor: 'white',
-    height: '100%',
-    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    alignItems: 'center',
   },
   titleText: {
-    marginTop: 20,
+    fontSize: 20,
+    fontWeight: 'bold',
     color: 'black',
-    paddingBottom: 30,
+    marginBottom: 20,
   },
-
+  scoreText: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginBottom: 80,
+  },
   footer: {
-  flex: 1,
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  width: '100%',
-  marginBottom: 40,
-  marginLeft: 50,
-
+    position: 'absolute',
+    bottom: 40,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginLeft: 55
   },
 });
