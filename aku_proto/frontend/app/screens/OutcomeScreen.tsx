@@ -12,7 +12,7 @@ export default function OutcomeScreen({ navigation }: Props) {
   const [score, setScore] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("http://172.17.15.242:8000/getScores", {
+    fetch("http://172.17.8.254:8000/getScores", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({})

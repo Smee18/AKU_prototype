@@ -30,7 +30,6 @@ export default function ClinicInfoScreen({navigation}: Props) {
       setNbPregErr(value ? "" : "Number of pregnancies cannot be empty");
     };
 
-
     return (
         <SafeAreaView style={styles.titleContainer}>
             <View style={styles.main}>
