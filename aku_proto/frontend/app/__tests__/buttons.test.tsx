@@ -3,6 +3,14 @@ import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import NextButton from '../components/nextButton';
 import { useNavigation } from 'expo-router';
 
+jest.mock('@react-native-async-storage/async-storage', () => ({
+  setItem: jest.fn(() => Promise.resolve(null)),
+  getItem: jest.fn(() => Promise.resolve(null)),
+  removeItem: jest.fn(() => Promise.resolve(null)),
+  clear: jest.fn(() => Promise.resolve(null)),
+}));
+
+
 const mockNavigate = jest.fn();
 
 // Mock useNavigation from expo-router
@@ -15,17 +23,9 @@ describe('NextButton navigation', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate });
-
-    // Mock global fetch
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ some: 'data' }),
-      } as Response)
-    ) as jest.Mock;
   });
 
-  it('navigates to targetScreen with backend data', async () => {
-    const data = { "score": 2 };
+  it('navigates to targetScreen', async () => {
     const targetScreen = 'Q6Screen';
 
     const { getByTestId } = render(
@@ -38,17 +38,8 @@ describe('NextButton navigation', () => {
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith(
-        targetScreen,
-        { some: 'data' }
+        targetScreen
       );
     });
-
-    expect(global.fetch).toHaveBeenCalledWith(
-      'http:// 172.17.8.254:8000/process',
-      expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({data}),
-      })
-    );
   });
 });
