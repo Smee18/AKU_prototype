@@ -1,8 +1,11 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NetworkInfo } from 'react-native-network-info';
+
+
 
 interface NextButtonProps {
   
@@ -15,6 +18,14 @@ const NextButton: React.FC<NextButtonProps> = ({
   targetScreen,
 }) => {
   const navigation = useNavigation<StackNavigationProp<any>>();
+
+  const [API_URL, setApiUrl] = useState('http://localhost:8000');
+
+  useEffect(() => {
+    NetworkInfo.getIPAddress().then(ipAddress => {
+      setApiUrl(`http://${ipAddress}:8000`);
+    });
+  }, []);
 
     const getAllStoredData = useCallback(async () => {
     try {
@@ -49,7 +60,7 @@ const NextButton: React.FC<NextButtonProps> = ({
       console.log("Trying to send", allData)
 
       try {
-        const res = await fetch('http://172.17.8.254:8000/process', {
+        const res = await fetch(`${API_URL}/process`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({allData}),
