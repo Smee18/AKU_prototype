@@ -1,3 +1,8 @@
+## License
+This repository is provided for educational and personal reference only.  
+You are free to view and run the code, but you may NOT copy, modify, or redistribute it without prior written permission from the author.  
+For any exceptions or permissions, please contact Marcel Venturotti.
+
 # Full-Stack Expo + Backend (Dockerized) AKU Prototype
 
 This repo contains:
