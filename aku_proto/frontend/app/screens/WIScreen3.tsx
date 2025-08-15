@@ -1,9 +1,10 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import { SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import NextButton from '../components/nextButton.tsx';
 import { WIScreen3NavigationProp } from '../navigation/types.ts';
-import GeneralQ from '../components/generalQ.tsx';
+import BinaryQ from '../components/binaryQ.tsx';
 import BackButton from '../components/backButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: WIScreen3NavigationProp;
@@ -11,36 +12,37 @@ type Props = {
 
 export default function WIScreen3({navigation}: Props) {
 
-    const[isWall, setIsWall] = useState<string | null>(null);
+    const handleCooker = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Cooker', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
+    }, []);
 
-    const handleWall = useCallback((value: string) => {
-      setIsWall(value);
+    const handlePhone = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Phone', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
     return (
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Wealth Index 4/10</Text>
-            <GeneralQ 
-                question="What are the walls of the main dwelling predominantly made of?" 
-                onSelect={handleWall}
-                options={[  { id: '1', label: 'Stone', value: '1'},
-                            { id: '2', label: 'Bricks/Blocks', value: '1'},
-                            { id: '3', label: 'Mud', value: '0' },
-                            { id: '4', label: 'Wood', value: '0' },
-                            { id: '5', label: 'Cement', value: '0' },
-                            { id: '6', label: 'Iron sheets', value: '0' },
-                            { id: '7', label: 'Tin', value: '0' },
-                            { id: '8', label: 'Other', value: '0' }]}>
-            </GeneralQ>
-
+            <Text style={styles.head}>Wealth Index 3/10</Text>
+            <BinaryQ question="Do you own a cooker?" onSelect={handleCooker}></BinaryQ>
+            <BinaryQ question="Do you own a phone?" onSelect={handlePhone}></BinaryQ>
           </View>
 
             {/* Footer container */}
           <View style={styles.footer}>
             <BackButton targetScreen='WIScreen2'></BackButton>
-            <NextButton data={{isWall}} targetScreen='WIScreen4' currentScreen='WIScreen3' />
+            <NextButton targetScreen='WIScreen4'/>
           </View>
 
         </SafeAreaView>

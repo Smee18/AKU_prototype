@@ -17,7 +17,6 @@ import ClinicInfoScreen from '../screens/clinicInfoScreen';
 import BeginScreen from '../screens/beginScreen';
 import WIScreen1 from '../screens/WIScreen1';
 import WIScreen2 from '../screens/WIScreen2';
-import WIScreen2bis from '../screens/WIScreen2bis';
 import WIScreen3 from '../screens/WIScreen3';
 import WIScreen4 from '../screens/WIScreen4';
 import WIScreen5 from '../screens/WIScreen5';
@@ -25,6 +24,7 @@ import WIScreen6 from '../screens/WIScreen6';
 import WIScreen7 from '../screens/WIScreen7';
 import WIScreen8 from '../screens/WIScreen8';
 import WIScreen9 from '../screens/WIScreen9';
+import WIScreen10 from '../screens/WIScreen10';
 
 const Stack = createStackNavigator();
 
@@ -59,7 +59,6 @@ const Navigator = () => {
         <Stack.Screen name="Q9Screen" component={Q9Screen} />
         <Stack.Screen name="WIScreen1" component={WIScreen1} />
         <Stack.Screen name="WIScreen2" component={WIScreen2} />
-        <Stack.Screen name="WIScreen2bis" component={WIScreen2bis} />
         <Stack.Screen name="WIScreen3" component={WIScreen3} />
         <Stack.Screen name="WIScreen4" component={WIScreen4} />
         <Stack.Screen name="WIScreen5" component={WIScreen5} />
@@ -67,6 +66,7 @@ const Navigator = () => {
         <Stack.Screen name="WIScreen7" component={WIScreen7} />
         <Stack.Screen name="WIScreen8" component={WIScreen8} />
         <Stack.Screen name="WIScreen9" component={WIScreen9} />
+        <Stack.Screen name="WIScreen10" component={WIScreen10} />
         <Stack.Screen name="OutcomeScreen" component={OutcomeScreen} />
 
       </Stack.Navigator>

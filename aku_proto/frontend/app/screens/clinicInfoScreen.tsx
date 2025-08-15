@@ -5,6 +5,7 @@ import { ClinicInfoScreenNavigationProp } from '../navigation/types.ts';
 import BinaryQ from '../components/binaryQ.tsx';
 import InputField from '../components/numberInputs.tsx';
 import BackButton from '../components/backButton.tsx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: ClinicInfoScreenNavigationProp;
@@ -14,20 +15,34 @@ export default function ClinicInfoScreen({navigation}: Props) {
 
     const[nbPreg, setNbPreg] = useState("");
     const[nbPregErr, setNbPregErr] = useState("");
-    const[isNurse, setIsNurse] = useState<string | null>(null);
-    const[isClinic, setIsClinic] = useState<string | null>(null);
 
-    const handleNurse = useCallback((value: string) => {
-      setIsNurse(value);
+    const handleNurse = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Delivery assistant_Nurse', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     }, []);
 
-    const handleClinic = useCallback((value: string) => {
-      setIsClinic(value);
+    const handleClinic = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Place of delivery_Clinic', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     }, []);
 
-    const validPreg = (value: string) => {
+    const validPreg = async (value: string) => {
       setNbPreg(value);
       setNbPregErr(value ? "" : "Number of pregnancies cannot be empty");
+      try {
+        await AsyncStorage.setItem('Number of pregnancies', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     };
 
 
@@ -50,7 +65,7 @@ export default function ClinicInfoScreen({navigation}: Props) {
             {/* Footer container */}
           <View style={styles.footer}>
             <BackButton targetScreen='MotherInfoScreenB' />
-            <NextButton data={{nbPreg, isNurse, isClinic}} targetScreen='WHOScreen' currentScreen='ClinicInfoScreen'
+            <NextButton targetScreen='WHOScreen'
                       validate={() => {
                     if (!nbPreg.trim()) return 'A';
                     return null;

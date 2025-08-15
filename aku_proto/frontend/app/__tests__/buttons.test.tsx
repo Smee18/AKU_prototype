@@ -26,13 +26,10 @@ describe('NextButton navigation', () => {
 
   it('navigates to targetScreen with backend data', async () => {
     const data = { "score": 2 };
-    const currentScreen = 'Q5Screen';
     const targetScreen = 'Q6Screen';
 
     const { getByTestId } = render(
       <NextButton
-        data={data}
-        currentScreen={currentScreen}
         targetScreen={targetScreen}
       />
     );
@@ -47,10 +44,10 @@ describe('NextButton navigation', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'http://172.17.15.242:8000/process',
+      'http:// 172.17.8.254:8000/process',
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify({ data, currentScreen }),
+        body: JSON.stringify({data}),
       })
     );
   });

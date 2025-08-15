@@ -30,10 +30,8 @@ export default function BeginScreen({ navigation }: Props) {
       </View>
 
       <View style={styles.footer}>
-        <NextButton 
-          data={{}} 
-          targetScreen='MotherInfoScreenA' 
-          currentScreen='BeginScreen' 
+        <NextButton  
+          targetScreen='MotherInfoScreenA'  
         />
       </View>
     </SafeAreaView>

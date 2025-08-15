@@ -5,6 +5,7 @@ import NextButton from '../components/nextButton.tsx';
 import Dropdown from '../components/dropdownGender.tsx';
 import { WHOScreenNavigationProp } from '../navigation/types.ts';
 import BackButton from '../components/backButton.tsx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: WHOScreenNavigationProp;
@@ -25,12 +26,18 @@ export default function WHOScreen({navigation}: Props) {
   const [heightBErr, setHeightBErr] = useState("");
   const [headErr, setHeadErr] = useState("");
 
-  const validGender = (value: string) => {
+  const validGender = async (value: string) => {
     setGender(value);
     setGenderErr(value ? "" : "Gender cannot be empty");
+    try {
+        await AsyncStorage.setItem('Baby gender', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
   };
 
-  const validAge = (value: string) => {
+  const validAge = async (value: string) => {
     setAge(value);
 
     const numericValue = parseInt(value) || 0;
@@ -42,22 +49,46 @@ export default function WHOScreen({navigation}: Props) {
     } else {
       setAgeErr("");
     }
+    try {
+      await AsyncStorage.setItem('Child age (months)', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
   
   };
 
-  const validWeight = (value: string) => {
+  const validWeight = async (value: string) => {
     setWeightB(value);
     setWeightBErr(value ? "" : "Weight cannot be empty");
+    try {
+        await AsyncStorage.setItem('Baby Weight', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
   };
 
-  const validHeight = (value: string) => {
+  const validHeight = async (value: string) => {
     setHeightB(value);
     setHeightBErr(value ? "" : "Height cannot be empty");
+    try {
+        await AsyncStorage.setItem('Baby Height', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
   };
 
-  const validHead = (value: string) => {
+  const validHead = async (value: string) => {
     setHead(value);
     setHeadErr(value ? "" : "Head circumference cannot be empty");
+    try {
+        await AsyncStorage.setItem('Head Circ', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
   };
 
   return (
@@ -95,8 +126,7 @@ export default function WHOScreen({navigation}: Props) {
 
       <View style={styles.footer}>
         <BackButton targetScreen='ClinicInfoScreen' />
-        <NextButton
-        data={{ gender, age, weightB, heightB, head }} 
+        <NextButton 
         validate={() => {
           if (!gender.trim()) return 'A';
           if (!age.trim()) return 'B';
@@ -107,7 +137,6 @@ export default function WHOScreen({navigation}: Props) {
           return null;
         }}
         targetScreen="Q1Screen"
-        currentScreen="WHOScreen"
       />
       </View>
 

@@ -4,6 +4,7 @@ import InputField from '../components/numberInputs.tsx';
 import NextButton from '../components/nextButton.tsx';
 import { MotherInfoScreenBNavigationProp } from '../navigation/types.ts';
 import BackButton from '../components/backButton.tsx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: MotherInfoScreenBNavigationProp;
@@ -27,27 +28,51 @@ export default function MotherInfoScreenB({navigation}: Props) {
     const [weightM, setWeightM] = useState("");
     const [weightMErr, setWeightMErr] = useState("");
 
-    const validAge = (value: string) => {
+    const validAge = async (value: string) => {
       setAge(value);
       setAgeErr(value ? "" : "Age cannot be empty");
+      try {
+        await AsyncStorage.setItem('Maternal age (years)', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     };
 
-    const validKids = (value: string) => {
+    const validKids = async (value: string) => {
       setNbKids(value);
       setNbKidsErr(value ? "" : "Number of children cannot be empty");
+      try {
+        await AsyncStorage.setItem('Total number of children', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     };
 
-    const validHeight = (value: string) => {
+    const validHeight = async (value: string) => {
       setHeightM(value);
       setHeightMErr(value ? "" : "Height cannot be empty");
+      try {
+        await AsyncStorage.setItem('Maternal height', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     };
 
-    const validWeight = (value: string) => {
+    const validWeight = async (value: string) => {
       setWeightM(value);
       setWeightMErr(value ? "" : "Weight cannot be empty");
+      try {
+        await AsyncStorage.setItem('Maternal weight', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     };
 
-    const validUnder5 = useCallback((value: string) => {
+    const validUnder5 = useCallback(async (value: string) => {
         setUnder5(value);
         
         const numericValue = parseInt(value) || 0;
@@ -61,6 +86,12 @@ export default function MotherInfoScreenB({navigation}: Props) {
         }
         else {
             setUnder5Err("");
+        }
+        try {
+          await AsyncStorage.setItem('Number of children aged 1 to 5 years', value);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (e) {
+          // saving error
         }
     }, [nbKids]);
 
@@ -127,9 +158,7 @@ export default function MotherInfoScreenB({navigation}: Props) {
       <View style={styles.footer}>
         <BackButton targetScreen='MotherInfoScreenA' />
         <NextButton 
-          data={{age, heightM, weightM, nbKids, under5}} 
           targetScreen='ClinicInfoScreen' 
-          currentScreen='MotherInfoScreenB'
           validate={() => {
             if (!age.trim()) return 'A';
             if (!heightM.trim()) return 'B';

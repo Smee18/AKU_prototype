@@ -1,9 +1,11 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import { SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import NextButton from '../components/nextButton.tsx';
 import { WIScreen7NavigationProp } from '../navigation/types.ts';
 import GeneralQ from '../components/generalQ.tsx';
 import BackButton from '../components/backButton';
+import BinaryQ from '../components/binaryQ.tsx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: WIScreen7NavigationProp;
@@ -11,49 +13,45 @@ type Props = {
 
 export default function WIScreen7({navigation}: Props) {
 
-    const[isSWater, setIsSWater] = useState<string | null>(null);
-    const[isFWater, setIsFWater] = useState<string | null>(null);
-
-
-    const handleSWater = useCallback((value: string) => {
-      setIsSWater(value);
+    const handleToilet = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Toilet', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
-    const handleFWater = useCallback((value: string) => {
-      setIsFWater(value);
+    const handleShared = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Shared', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
-
 
     return (
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Wealth Index 8/10</Text>
+            <Text style={styles.head}>Wealth Index 7/10</Text>
             <GeneralQ 
-                question="What is the main source of water for members of your household?"
-                onSelect={handleSWater}
-                options={[  { id: '1', label: 'Piped in', value: '1'},
-                            { id: '3', label: 'Public tap', value: '1' },
-                            { id: '4', label: 'Open well', value: '0' },
-                            { id: '5', label: 'Covered well', value: '1' },
-                            { id: '6', label: 'Natural source (river,pond,lake...)', value: '0' }]}>
+                question="What kind of toilet facility does your household have?"
+                onSelect={handleToilet}
+                options={[  { id: '1', label: 'Flush toilet', value: '1'},
+                            { id: '2', label: 'Pit latrine', value: '0'},
+                            { id: '3', label: 'Free range (bush/throw in a river)', value: '0' },
+                            { id: '4', label: 'Other', value: '0' }]}>
             </GeneralQ>
-    
-            <GeneralQ 
-                question="How frequently is water available from this source? "
-                onSelect={handleFWater}
-                options={[  { id: '1', label: 'Always available', value: '1'},
-                            { id: '3', label: 'Several hours per day', value: '1' },
-                            { id: '4', label: 'Once or twice a week', value: '0' },
-                            { id: '5', label: 'Infrequently', value: '0' }]}>
-            </GeneralQ>
+            <BinaryQ question='Is this toilet facility shared (e.g. with neighbours)?' onSelect={handleShared}></BinaryQ>
 
           </View>
 
             {/* Footer container */}
           <View style={styles.footer}>
             <BackButton targetScreen='WIScreen6'></BackButton>
-            <NextButton data={{isSWater, isFWater}} targetScreen='WIScreen8' currentScreen='WIScreen7' />
+            <NextButton targetScreen='WIScreen8'/>
           </View>
 
         </SafeAreaView>

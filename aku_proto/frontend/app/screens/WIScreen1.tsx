@@ -1,9 +1,10 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import { SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import NextButton from '../components/nextButton.tsx';
 import { WIScreen1NavigationProp } from '../navigation/types.ts';
 import BinaryQ from '../components/binaryQ.tsx';
 import BackButton from '../components/backButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: WIScreen1NavigationProp;
@@ -11,25 +12,41 @@ type Props = {
 
 export default function WIScreen1({navigation}: Props) {
 
-    const[isRadio, setIsRadio] = useState<string | null>(null);
-    const[isTV, setIsTV] = useState<string | null>(null);
-    const[isVM, setIsVM] = useState<string | null>(null);
-    const[isFridge, setIsFridge] = useState<string | null>(null);
 
-    const handleRadio = useCallback((value: string) => {
-      setIsRadio(value);
+    const handleRadio = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Radio', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
-    const handleTV = useCallback((value: string) => {
-      setIsTV(value);
+    const handleTV = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('TV', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
-    const handleVM = useCallback((value: string) => {
-      setIsVM(value);
+    const handleVM = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('VM', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
-    const handleFridge = useCallback((value: string) => {
-      setIsFridge(value);
+    const handleFridge = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Fridge', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
 
@@ -47,7 +64,7 @@ export default function WIScreen1({navigation}: Props) {
             {/* Footer container */}
           <View style={styles.footer}>
             <BackButton targetScreen='Q9Screen'></BackButton>
-            <NextButton data={{isRadio, isTV, isVM, isFridge}} targetScreen='WIScreen2' currentScreen='WIScreen1' />
+            <NextButton targetScreen='WIScreen2'/>
           </View>
 
         </SafeAreaView>

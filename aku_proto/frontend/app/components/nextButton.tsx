@@ -1,23 +1,41 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface NextButtonProps {
   
-  data: Record<string, any>;
   validate?: () => string | null;
   targetScreen: string;
-  currentScreen: string;
 }
 
 const NextButton: React.FC<NextButtonProps> = ({
-  data,
   validate,
   targetScreen,
-  currentScreen,
 }) => {
   const navigation = useNavigation<StackNavigationProp<any>>();
+
+    const getAllStoredData = useCallback(async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys(); // All keys
+      const result = await AsyncStorage.multiGet(keys); // [ [key, value], ... ]
+      
+      // Convert array to an object
+      const dataObject: Record<string, string> = {};
+      result.forEach(([key, value]) => {
+        if (value !== null) {
+          dataObject[key] = value;
+        }
+      });
+
+      return dataObject;
+    } catch (error) {
+      console.error("Error retrieving AsyncStorage data:", error);
+      return {};
+    }
+  }, []);
+
 
   const handleClick = async () => {
     const invalidField = validate?.();
@@ -26,20 +44,35 @@ const NextButton: React.FC<NextButtonProps> = ({
       return;
     }
 
-    console.log("Trying to send", data)
+    if (targetScreen === "OutcomeScreen") {
+      const allData = await getAllStoredData();
+      console.log("Trying to send", allData)
 
-    try {
-      const res = await fetch('http://172.17.15.242:8000/process', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({data, currentScreen}),
-      });
+      try {
+        const res = await fetch('http://172.17.8.254:8000/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({allData}),
+        });
 
-      const json = await res.json();
-      navigation.navigate(targetScreen, json);
-    } catch (err) {
-      console.error('Failed to contact backend:', err);
+        const json = await res.json();
+        navigation.navigate(targetScreen, { score: json.score });
+      } catch (err) {
+        console.error('Failed to contact backend:', err);
+      }
+
+      try {
+        await AsyncStorage.clear();
+        console.log('AsyncStorage cleared successfully.');
+      } catch (error) {
+        console.error('Error clearing AsyncStorage:', error);
+      }
+      
+    } else {
+      navigation.navigate(targetScreen);
     }
+
+
   };
 
   return (

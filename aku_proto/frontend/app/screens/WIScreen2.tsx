@@ -1,9 +1,10 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import { SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import NextButton from '../components/nextButton.tsx';
 import { WIScreen2NavigationProp } from '../navigation/types.ts';
 import BinaryQ from '../components/binaryQ.tsx';
 import BackButton from '../components/backButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: WIScreen2NavigationProp;
@@ -11,25 +12,40 @@ type Props = {
 
 export default function WIScreen2({navigation}: Props) {
 
-    const[isComputer, setIsComputer] = useState<string | null>(null);
-    const[isBicycle, setIsBicycle] = useState<string | null>(null);
-    const[isMotorbike, setIsMotorbike] = useState<string | null>(null);
-    const[isCar, setIsCar] = useState<string | null>(null);
-
-    const handleComputer = useCallback((value: string) => {
-      setIsComputer(value);
+    const handleComputer = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Computer', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     }, []);
 
-    const handleBicycle = useCallback((value: string) => {
-      setIsBicycle(value);
+    const handleBicycle = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Bicycle', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      } 
     }, []);
 
-    const handleMotorbike = useCallback((value: string) => {
-      setIsMotorbike(value);
+    const handleMotorbike = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Motorbike', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
-    const handleCar = useCallback((value: string) => {
-      setIsCar(value);
+    const handleCar = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Car', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
     return (
@@ -46,7 +62,7 @@ export default function WIScreen2({navigation}: Props) {
             {/* Footer container */}
           <View style={styles.footer}>
             <BackButton targetScreen='WIScreen1'></BackButton>
-            <NextButton data={{isComputer, isBicycle, isMotorbike, isCar}} targetScreen='WIScreen2bis' currentScreen='WIScreen2' />
+            <NextButton targetScreen='WIScreen3'/>
           </View>
 
         </SafeAreaView>

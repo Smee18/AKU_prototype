@@ -1,31 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { OutcomeScreenNavigationProp } from '../navigation/types';
 import BackButton from '../components/backButton';
+import { RouteProp } from '@react-navigation/native';
 
 type Props = {
   navigation: OutcomeScreenNavigationProp;
+  route: RouteProp<{ OutcomeScreen: { score: number } }, 'OutcomeScreen'>;
 };
 
-export default function OutcomeScreen({ navigation }: Props) {
-  
-  const [score, setScore] = useState<number | null>(null);
-
-  useEffect(() => {
-    fetch("http://172.17.15.242:8000/getScores", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({})
-    })
-      .then(res => res.json())
-      .then(data => {
-        setScore(data.score); 
-        console.log(data);
-      })
-      .catch(err => {
-        console.error("Error fetching scores:", err);
-      });
-  }, []);
+export default function OutcomeScreen({ navigation, route }: Props) {
+  const { score } = route.params;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,9 +19,7 @@ export default function OutcomeScreen({ navigation }: Props) {
         <Text
           style={[
             styles.scoreText,
-            {
-              color: score === 1 ? 'red' : 'green',
-            },
+            { color: score === 1 ? 'red' : 'green' }
           ]}
         >
           {score === 1 ? 'OFF-TRACK DEVELOPMENT' : 'ON-TRACK DEVELOPMENT'}
@@ -52,32 +35,36 @@ export default function OutcomeScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
+  container: { 
+    flex: 1, 
+    backgroundColor: 'white', 
+    justifyContent: 'center', 
+    alignItems: 'center' 
   },
-  content: {
-    alignItems: 'center',
+
+  content: { 
+    alignItems: 'center' 
   },
-  titleText: {
-    fontSize: 20,
+
+  titleText: { 
+    fontSize: 20, 
     fontWeight: 'bold',
-    color: 'black',
-    marginBottom: 20,
+    color: 'black', 
+    marginBottom: 20 
   },
-  scoreText: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    marginBottom: 80,
+
+  scoreText: { 
+    fontSize: 26, 
+    fontWeight: 'bold', 
+    marginBottom: 80 
   },
-  footer: {
-    position: 'absolute',
-    bottom: 40,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginLeft: 55
-  },
+
+  footer: { 
+    position: 'absolute', 
+    bottom: 40, 
+    width: '100%', 
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    marginLeft: 55 
+  }
 });

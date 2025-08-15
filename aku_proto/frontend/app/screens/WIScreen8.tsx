@@ -1,9 +1,10 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import { SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import NextButton from '../components/nextButton.tsx';
 import { WIScreen8NavigationProp } from '../navigation/types.ts';
 import GeneralQ from '../components/generalQ.tsx';
 import BackButton from '../components/backButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: WIScreen8NavigationProp;
@@ -11,16 +12,24 @@ type Props = {
 
 export default function WIScreen8({navigation}: Props) {
 
-    const[isFuel, setIsFuel] = useState<string | null>(null);
-    const[isCook, setIsCook] = useState<string | null>(null);
 
 
-    const handleFuel = useCallback((value: string) => {
-      setIsFuel(value);
+    const handleSWater = useCallback(async(value: string) => {
+      try {
+        await AsyncStorage.setItem('SWater', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
-    const handleCook = useCallback((value: string) => {
-      setIsCook(value);
+    const handleFWater = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('FWater', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
     }, []);
 
 
@@ -28,33 +37,32 @@ export default function WIScreen8({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Wealth Index 9/10</Text>
+            <Text style={styles.head}>Wealth Index 8/10</Text>
             <GeneralQ 
-                question="What is the household's main source of cooking fuel?"
-                onSelect={handleFuel}
-                options={[  { id: '1', label: 'Firewood', value: '0'},
-                            { id: '2', label: 'Kerosene', value: '0' },
-                            { id: '3', label: 'Electricity', value: '1' },
-                            { id: '4', label: 'Gas', value: '1' },
-                            { id: '5', label: 'Charcoal', value: '0' },
-                            { id: '6', label: 'Dung', value: '0' },
-                            { id: '7', label: 'Other', value: '0' }]}>
+                question="What is the main source of water for members of your household?"
+                onSelect={handleSWater}
+                options={[  { id: '1', label: 'Piped in', value: '1'},
+                            { id: '3', label: 'Public tap', value: '1' },
+                            { id: '4', label: 'Open well', value: '0' },
+                            { id: '5', label: 'Covered well', value: '1' },
+                            { id: '6', label: 'Natural source (river,pond,lake...)', value: '0' }]}>
             </GeneralQ>
     
             <GeneralQ 
-                question="Where do you cook?"
-                onSelect={handleCook}
-                options={[  { id: '1', label: 'Kitchen', value: '1'},
-                            { id: '2', label: 'Within the house', value: '0' },
-                            { id: '3', label: 'Outside the house', value: '0' }]}>
+                question="How frequently is water available from this source? "
+                onSelect={handleFWater}
+                options={[  { id: '1', label: 'Always available', value: '1'},
+                            { id: '3', label: 'Several hours per day', value: '1' },
+                            { id: '4', label: 'Once or twice a week', value: '0' },
+                            { id: '5', label: 'Infrequently', value: '0' }]}>
             </GeneralQ>
-    
+
           </View>
 
             {/* Footer container */}
           <View style={styles.footer}>
             <BackButton targetScreen='WIScreen7'></BackButton>
-            <NextButton data={{isFuel, isCook}} targetScreen='WIScreen9' currentScreen='WIScreen8' />
+            <NextButton targetScreen='WIScreen9'/>
           </View>
 
         </SafeAreaView>

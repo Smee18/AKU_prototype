@@ -4,6 +4,7 @@ import Slider from '@react-native-community/slider';
 import { Q5ScreenNavigationProp } from '../navigation/types';
 import BackButton from '../components/backButton';
 import NextButton from '../components/nextButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: Q5ScreenNavigationProp;
@@ -13,10 +14,17 @@ const labels = ['Not at all', 'Several days', 'More than half the days', 'Nearly
 
 export default function Q5Screen({ navigation }: Props) {
   const [value, setValue] = useState(2);
+  AsyncStorage.setItem('Q5', "2");
 
-  const snapTo = (val: number) => {
+  const snapTo = async (val: number) => {
     const snapped = Math.round(val);
     setValue(snapped);
+    try {
+      await AsyncStorage.setItem('Q5', snapped.toString());
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+    }
   };
 
   return (
@@ -50,7 +58,7 @@ export default function Q5Screen({ navigation }: Props) {
       {/* Footer container */}
       <View style={styles.footer}>
         <BackButton targetScreen='Q4Screen' />
-        <NextButton data={{value}} targetScreen='Q6Screen' currentScreen='Q5Screen' />
+        <NextButton targetScreen='Q6Screen'/>
       </View>
     </SafeAreaView>
   );

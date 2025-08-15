@@ -1,20 +1,20 @@
 import React, {useCallback} from 'react';
 import { SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import NextButton from '../components/nextButton.tsx';
-import { WIScreen4NavigationProp } from '../navigation/types.ts';
+import { WIScreen10NavigationProp } from '../navigation/types.ts';
 import GeneralQ from '../components/generalQ.tsx';
-import BackButton from '../components/backButton';
+import BackButton from '../components/backButton.tsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
-  navigation: WIScreen4NavigationProp;
+  navigation: WIScreen10NavigationProp;
 };
 
-export default function WIScreen4({navigation}: Props) {
+export default function WIScreen10({navigation}: Props) {
 
-    const handleWall = useCallback(async (value: string) => {
+    const handleLight = useCallback(async (value: string) => {
       try {
-        await AsyncStorage.setItem('Wall', value);
+        await AsyncStorage.setItem('Light', value);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         // saving error
@@ -25,17 +25,17 @@ export default function WIScreen4({navigation}: Props) {
         <SafeAreaView style={styles.titleContainer}>
 
           <View style={styles.main}>
-            <Text style={styles.head}>Wealth Index 4/10</Text>
+            <Text style={styles.head}>Wealth Index 10/10</Text>
             <GeneralQ 
-                question="What are the walls of the main dwelling predominantly made of?" 
-                onSelect={handleWall}
-                options={[  { id: '1', label: 'Stone', value: '1'},
-                            { id: '2', label: 'Bricks/Blocks', value: '1'},
-                            { id: '3', label: 'Mud', value: '0' },
-                            { id: '4', label: 'Wood', value: '0' },
-                            { id: '5', label: 'Cement', value: '0' },
-                            { id: '6', label: 'Iron sheets', value: '0' },
-                            { id: '7', label: 'Tin', value: '0' },
+                question="What is the household's main source of lighting? " 
+                onSelect={handleLight}
+                options={[  { id: '1', label: 'Pressure lamp', value: '0'},
+                            { id: '2', label: 'Kerosene lamp', value: '0'},
+                            { id: '3', label: 'Tim lamp', value: '0' },
+                            { id: '4', label: 'Electricity', value: '1' },
+                            { id: '5', label: 'Firewood', value: '0' },
+                            { id: '6', label: 'Solar', value: '1' },
+                            { id: '7', label: 'Candles', value: '0' },
                             { id: '8', label: 'Other', value: '0' }]}>
             </GeneralQ>
 
@@ -43,8 +43,8 @@ export default function WIScreen4({navigation}: Props) {
 
             {/* Footer container */}
           <View style={styles.footer}>
-            <BackButton targetScreen='WIScreen3'></BackButton>
-            <NextButton targetScreen='WIScreen5' />
+            <BackButton targetScreen='WIScreen9'></BackButton>
+            <NextButton targetScreen='OutcomeScreen'/>
           </View>
 
         </SafeAreaView>

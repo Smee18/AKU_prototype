@@ -1,9 +1,10 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import { SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import NextButton from '../components/nextButton.tsx';
 import { MotherInfoScreenANavigationProp } from '../navigation/types.ts';
 import BinaryQ from '../components/binaryQ.tsx';
 import BackButton from '../components/backButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   navigation: MotherInfoScreenANavigationProp;
@@ -11,26 +12,43 @@ type Props = {
 
 export default function MotherInfoScreenA({navigation}: Props) {
 
-    const[isEdu, setIsEdu] = useState<string | null>(null);
-    const[isMainEdu, setIsMainEdu] = useState<string | null>(null);
-    const[isMarried, setIsMarried] = useState<string | null>(null);
-    const[isMuslim, setIsMuslim] = useState<string | null>(null);
 
-    const handleEdu = useCallback((value: string) => {
-      setIsEdu(value);
+    const handleEdu = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Maternal education_No education', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     }, []);
 
-    const handleMainEdu = useCallback((value: string) => {
-      setIsMainEdu(value);
+    const handleMainEdu = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Maternal education_Primary', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     }, []);
 
-    const handleMarried = useCallback((value: string) => {
-      setIsMarried(value);
+    const handleMarried = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Maternal marital status_Unmarried', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     }, []);
 
-    const handleMuslim = useCallback((value: string) => {
-      setIsMuslim(value);
+    const handleMuslim = useCallback(async (value: string) => {
+      try {
+        await AsyncStorage.setItem('Maternal religion_Islam', value);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // saving error
+      }
     }, []);
+
 
     return (
         <SafeAreaView style={styles.titleContainer}>
@@ -46,7 +64,7 @@ export default function MotherInfoScreenA({navigation}: Props) {
             {/* Footer container */}
           <View style={styles.footer}>
             <BackButton targetScreen='BeginScreen'></BackButton>
-            <NextButton data={{isEdu, isMainEdu, isMarried, isMuslim}} targetScreen='MotherInfoScreenB' currentScreen='MotherInfoScreenA' />
+            <NextButton targetScreen='MotherInfoScreenB'/>
           </View>
 
         </SafeAreaView>
